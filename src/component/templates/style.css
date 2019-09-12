@@ -1,0 +1,34 @@
+
+ kendo-pdf-document .pma-details{
+        -webkit-column-count: 2; /* Old Chrome, Safari and Opera */
+        -moz-column-count: 2; /* Old Firefox */
+        column-count: 2;
+      }
+      kendo-pdf-document .page-size-legal{
+        border: 2px solid red;
+      }
+      kendo-pdf-document  .page {
+      font-size: 11px;
+      overflow: hidden;
+      text-align: justify;
+      margin: 1cm auto;
+      background: #fff;
+      box-shadow: 0 4px 5px rgba(75, 75, 75, 0.7);
+      outline: 0;
+  }
+  kendo-pdf-document .inner-border{
+      border:2px solid blue;
+      height:100%;
+  }
+  /* kendo-pdf-document #pageborder {
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: 2px solid red;
+  } */
+  kendo-pdf-document p{
+    orphans: 5;
+    widows: 3;
+}

@@ -1,0 +1,77 @@
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 400;
+}
+/** Override AdminLTE rules **/
+.wrapper{
+  overflow-y: hidden !important;
+}
+.capitalizeText{
+  text-transform: capitalize;
+}
+.main-footer {
+	padding: 10px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.required:after {
+  color: #e32;
+  content: ' *';
+  display:inline;
+}
+.main-header .logo{
+	padding: 0;
+	line-height: 0;
+}
+/** Data Table Button **/
+.dt-buttons{
+	float:right !important;
+}
+.dt-buttons > button{
+  margin-bottom: 0.5em;
+  margin-right: 0.5em;
+}
+.floatLeft{
+	float: left;
+}
+.clear{ clear: both; }
+.clear-left{ clear: left; }
+
+div.scrollToTop{
+	display: none;
+	position: fixed;
+	bottom:0;
+	right: 0;
+	width: 40px;
+	height: 40px;
+	background-image: url('../img/arrow-up.png');
+	background-repeat: no-repeat;
+	background-size: 40px;
+	cursor:pointer;
+}
+
+/** Boostrap Override **/
+.form-group{
+	margin-bottom: 10px;
+}
+
+.glyphicon-user{color:#666}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+.template-fixed-header{
+    padding: 10px 0;
+}
+.template-container{
+    margin-top:100px;
+}
+/** Fixed DataTable print, avoid blank pages **/
+@media print {
+  html, body { height: auto; }
+}
+

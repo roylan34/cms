@@ -1,0 +1,22 @@
+.submitted .ng-invalid{
+    border: 1px solid red;
+}
+
+.login-box-msg { 
+    font-weight:500 
+}
+
+#frmLogin .input-group input:after{
+  content: '';
+}
+
+#frmLogin .input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+  margin-bottom: 15px;
+}
+
+.login-banner img{
+    border-radius: 0px 0px 40px;
+}

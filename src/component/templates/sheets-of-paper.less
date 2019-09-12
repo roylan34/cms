@@ -1,0 +1,152 @@
+@import './../../../node_modules/antd/dist/antd.less';
+
+//Override antd.less style
+@primary-color: #1DA57A;
+@font-size: 12px;
+
+.@{ant-prefix}-input, .@{input-number-prefix-cls} {
+    border-style: dashed;
+    border-color: @primary-color;
+}
+
+.page{
+    font-size: @font-size;
+    overflow: hidden;
+    text-align: justify;
+    margin: 1cm auto;
+	/* Define a white paper background that sticks out from the darker overall background */
+	background: #fff;
+	/* Show a drop shadow beneath each page */
+	box-shadow: 0 4px 5px rgba(75, 75, 75, 0.70);
+	/* Override outline from user agent stylesheets */
+    outline: 0;
+
+    // page-break-after: always;
+}
+.page-size-legal{
+    width: 21.59cm;
+    min-height: 35.6cm;
+    padding: 1cm;
+}
+
+.p-text-indent{
+    text-indent: 5%;
+}
+
+/* For tables in the document */
+table {
+	/* Avoid page breaks inside */
+	page-break-inside: avoid;
+}
+
+
+.remove-col-padlr{
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* When the document is actually printed */
+@media print {
+
+    /* Use CSS Paged Media to switch from continuous documents to sheet-like documents with separate pages */
+    @page {
+        /* You can only change the size, margins, orphans, widows and page breaks here */
+
+        /* Require that at least this many lines of a paragraph must be left at the bottom of a page */
+        orphans: 4;
+        /* Require that at least this many lines of a paragraph must be left at the top of a new page */
+        widows: 2;
+        margin: 1cm;
+        size: 'Legal';
+
+    }
+
+    .page-break{
+        page-break-inside: auto;
+    }
+    .template-container{
+        margin-top: 0 !important;
+    }
+    .page-size-legal{
+        position: absolute;
+        padding: 20px !important;
+    }
+    #page-border {
+        position:fixed;
+        left: 0;
+        right: 0;
+        top:0;
+        bottom: 0;
+        border:4px solid @primary-color;
+        // outline:1px solid black;
+        // outline-offset: -10px;
+    }
+    // #page-outline {
+    //     position: absolute;
+    //     left: 0;
+    //     right: 0;
+    //     top: 0;
+    //     bottom: 0;
+    //     border: 1px solid black;
+    //     margin:3px;
+    // }
+    .pma-container{
+        border: none !important;
+        outline: none !important;
+        outline-offset: 0 !important;
+        padding: 20px 10px;
+    }
+	.page {
+		/* Reset all page styles that have been for better screen appearance only */
+		/* Break cascading by using the !important rule */
+		/* These resets are absolute must-haves for the print styles and the specificity may be higher elsewhere */
+		width: initial !important;
+		min-height: initial !important;
+		margin: initial !important;
+        // padding: 20px 20px 40px 20px;
+        // padding: 20px;
+		// border-radius: initial !important;
+		// background: initial !important;
+        // box-shadow: initial !important;
+        // border: 0.5px solid @primary-color;
+        // outline: 3px solid @primary-color;
+        // outline-offset: 3px;
+
+        font-size:11px;
+
+        /* Force page breaks after each .page element of the document */
+        page-break-after: always;
+		
+    }
+    /* To force heading to always be the beginning of a page.*/
+    h1{
+        page-break-before: always;
+    }
+    /* To avoid breaks directly after a heading use */
+    h1,h2,h3,h4,h5,h6{
+        page-break-after: avoid;
+    }
+
+    input[type=text]{
+
+        appearance: none;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        border: none !important;
+    }
+    button{
+        display: none !important;
+    }
+
+    .mix-in-placeholder(@color){
+        .@{ant-prefix}-input::-webkit-input-placeholder{ color:@color; }
+        .@{ant-prefix}-input::-moz-input-placeholder{ color:@color; }  /* Firefox 18- */
+        .@{ant-prefix}-input:-ms-input-placeholder{ color:@color; }
+        .@{ant-prefix}-input:-moz-input-placeholder{ color:@color; } /* Firefox 19+ */
+    }
+    .mix-in-placeholder(transparent);
+
+    .template-fixed-header{
+        display:none;
+    }
+}

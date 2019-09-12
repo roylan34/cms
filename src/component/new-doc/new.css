@@ -1,0 +1,27 @@
+.new-doc-header{
+  padding-bottom: 20px;
+}
+.new-doc-subheader{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.card-templates{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 210px);
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    grid-column-gap: 20px;
+    grid-row-gap: 40px;
+    margin-top: 20px;
+    padding-bottom: 40px;
+}
+
+.ant-card-meta-title{
+    font-size: 14px;
+}
+.ant-card-meta-description{
+    font-size: 11px;
+}
