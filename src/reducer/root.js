@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
-import pmaReducer from './pmaReducer';
+import currentReducer from './currentReducer';
+import categoriesReducer from './categoriesReducer';
 
 
 const rootReducer = combineReducers({
-    pmaReducer: pmaReducer
+    currentReducer: currentReducer,
+    categoriesReducer: categoriesReducer
 });
 
 export default rootReducer;

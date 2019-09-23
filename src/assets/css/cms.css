@@ -63,15 +63,23 @@ div.scrollToTop{
     clear: both;
     display: table;
   }
-
-.template-fixed-header{
-    padding: 10px 0;
+.badge-green{ 
+	background-color: #058e4f;
 }
-.template-container{
-    margin-top:100px;
+
+.badge-blue{
+	background-color: #3c8dbc;
+}
+
+.badge-red{
+	background-color:#c34838;
+}
+
+.badge-orange{
+	background-color:#f39c12;
 }
 /** Fixed DataTable print, avoid blank pages **/
-@media print {
+/* @media print {
   html, body { height: auto; }
-}
+} */
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { API_URL } from "./constant";
 import { isEmpty, makeId } from './utils';
@@ -16,35 +16,31 @@ import 'datatables.net-buttons/js/buttons.print.min'; //Print button
 // This line was the one missing
 window.JSZip = jsZip;
 
-/**
- * Build tH element in each column.
- */
-function TableHeaders(props) {
-    return (
-        <thead>
-            <tr>
-                {
-                    props.headers.map(header => {
-                        return <th key={(isEmpty(header) ? makeId() : header)} className="text-left">
-                            {header}
-                        </th>
-                    })
-                }
-            </tr>
-        </thead>
-    )
-}
+class Table extends React.Component {
 
-export default function Table(props) {
+    constructor(props) {
+        super(props);
 
-    let dtInstance = null;
-    let dtRef = useRef();
+        this.dtInstance = null;
+        this.reloadDataTable = this.reloadDataTable.bind(this);
+
+    }
+    /**
+     * Build tH element in each column.
+     */
+    buildHeaders() {
+        return this.props.headers.map(header => {
+            return <th key={(isEmpty(header) ? makeId() : header)} className="text-left">
+                {header}
+            </th>;
+        });
+    }
     /**
     * Initialize DataTable with props.
     */
-    function dataTable() {
-        dtInstance = $(dtRef.current).DataTable({
-            "dom": props.dom,
+    dataTable() {
+        this.dtInstance = $(this.refs.dt).DataTable({
+            "dom": this.props.dom,
             "autoWidth": false,
             "responsive": true,
             "pageLength": 25,
@@ -58,14 +54,14 @@ export default function Table(props) {
             "stateSave": true,                                          //save the pagination #, ordering, show records # and etc
             "ordering": false,
             "ajax": {
-                "url": `${API_URL}/${props.url}`,
+                "url": `${API_URL}/${this.props.url}`,
                 "type": "POST",
                 "dataSrc": 'records',
-                "data": props.param
+                "data": this.props.param
             },
-            "buttons": props.buttons,
-            "columns": props.columns,
-            "columnDefs": props.columnDefs,
+            "buttons": this.props.buttons(this),
+            "columns": this.props.columns,
+            "columnDefs": this.props.columnDefs,
             "deferRender": true,
             "preDrawCallback": function (settings) {
                 //Override default style of buttons.
@@ -77,43 +73,43 @@ export default function Table(props) {
                     })
                 }
             },
-            "footerCallback": props.footerCb
+            "footerCallback": this.props.footerCb
         });
+    }
+    /** Refresh table from Ajax source. */
+    reloadDataTable() {
+        this.dtInstance.ajax.reload(null, false);
     }
     /**
      * Cancel all ajax request in-progress if component is WillUnmount.
      */
-    function abortDataTable() {
+    abortDataTable() {
         if (typeof $ !== 'undefined' && $.fn.dataTable) {
             for (let i = 0; i < $.fn.dataTable.settings.length; i++) {
                 $.fn.dataTable.settings[i].jqXHR.abort();
             }
         }
     }
-    function __componentDidMount() {
-        dataTable();
-        props.onRef(dtInstance); //Get reference of this class.
-
+    componentDidMount() {
+        this.props.onRef(this); //Get reference of this class.
+        this.dataTable();
     }
-    function __componentWillUnmount() {
-        props.onRef(null)
-        abortDataTable();
+    componentWillUnmount() {
+        this.props.onRef(null)
+        this.abortDataTable();
         $('.data-table-wrapper').find('table').DataTable().destroy(true);
     }
+    render() {
 
-    useEffect(() => {
-        __componentDidMount();
-        return __componentWillUnmount;
-    });
-    return (
-        <div id="dtContainer">
-            <table className="table table-condensed table-striped table-hover" ref={dtRef} id={props.id}>
-                <TableHeaders headers={props.headers} />
-                {props.headerSearch}
-            </table>
-        </div >
-    );
+        return (
+            <div id="dtContainer">
+                <table className="table table-condensed table-striped table-hover" ref="dt" id={this.props.id}>
+                    {this.props.children}
+                </table>
+            </div >
+        );
 
+    }
 }
 
 //TypeChecking Props
@@ -121,7 +117,7 @@ Table.propTypes = {
     id: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     dom: PropTypes.string,
-    buttons: PropTypes.arrayOf(PropTypes.object),
+    buttons: PropTypes.func,
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     columnDefs: PropTypes.arrayOf(PropTypes.object),
     footerCb: PropTypes.func,
@@ -136,5 +132,6 @@ Table.defaultProps = {
     columnDefs: []
 }
 
+export default Table;
 
 

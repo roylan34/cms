@@ -37,8 +37,8 @@
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-app-rewired eject",
-        "generate:prod": "set NODE_ENVS=production && node pdf.js",
-        "generate:dev": "set NODE_ENVS=development && node pdf.js"
+        "generate:prod": "set NODE_ENV=production&& node pdf.js",
+        "generate:dev": "set NODE_ENV=development&& node pdf.js"
     },
     "eslintConfig": {
         "extends": "react-app"

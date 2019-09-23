@@ -2,17 +2,14 @@ const puppeteer = require('puppeteer');
 const express = require('express');
 
 const app = express();
-var envrs = process.env.NODE_ENVS;
+const envr = process.env.NODE_ENV;
 
+//Get node environment.
 function getEnv() {
-    console.log(envrs, "production");
-    if (envrs == "production") {
-        console.log(111)
+    if (envr === "production") {
         return 'http://localhost/cms';
-    } else {
-        console.log(222)
-        return 'http://localhost:4000';
     }
+    return 'http://localhost:3000';
 }
 
 app.get('/downloadpdf', async (req, res) => {
@@ -26,12 +23,8 @@ app.get('/downloadpdf', async (req, res) => {
 
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        let env = null;
-
-        process.on('unhandledRejection', function (reason, promise) {
-            env = getEnv();
-        })
-        await page.goto(`${env}/template/pma`, { waitUntil: "networkidle0" });
+        const env = getEnv();
+        await page.goto(env + '/template/pma', { waitUntil: "networkidle0" });
         // await page.emulateMedia('screen'); //By default, Puppeteer generates a PDF using the print CSS media. If you want to print with screen CSS, call await page.emulateMedia('screen') before page.pdf().
         const pdf = await page.pdf({
             // path: './react.pdf', // path (relative to CWD) to save the PDF to.
@@ -41,7 +34,6 @@ app.get('/downloadpdf', async (req, res) => {
         });
 
         await browser.close();
-
         res.send(pdf);
     }
     catch (err) {

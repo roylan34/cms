@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { API_URL } from "./constant";
 import { isEmpty, makeId } from './utils';
 import $ from 'jquery';
-
 
 import 'datatables.net-bs';
 import jsZip from 'jszip';
@@ -16,29 +15,10 @@ import 'datatables.net-buttons/js/buttons.print.min'; //Print button
 // This line was the one missing
 window.JSZip = jsZip;
 
-/**
- * Build tH element in each column.
- */
-function TableHeaders(props) {
-    return (
-        <thead>
-            <tr>
-                {
-                    props.headers.map(header => {
-                        return <th key={(isEmpty(header) ? makeId() : header)} className="text-left">
-                            {header}
-                        </th>
-                    })
-                }
-            </tr>
-        </thead>
-    )
-}
-
-export default function Table(props) {
+export default function DataTable(props) {
 
     let dtInstance = null;
-    let dtRef = useRef();
+    const dtRef = React.createRef();
     /**
     * Initialize DataTable with props.
     */
@@ -55,7 +35,7 @@ export default function Table(props) {
             "bDestroy": true,
             "serverSide": true,
             "processing": true,
-            "stateSave": true,                                          //save the pagination #, ordering, show records # and etc
+            "stateSave": true,  //save the pagination #, ordering, show records # and etc
             "ordering": false,
             "ajax": {
                 "url": `${API_URL}/${props.url}`,
@@ -81,6 +61,23 @@ export default function Table(props) {
         });
     }
     /**
+     * Build tH element in each column.
+     */
+    function TableHeaders() {
+
+        return (
+            <thead>
+                {
+                    props.headers.map(header => {
+                        return <th key={(isEmpty(header) ? makeId() : header)} className="text-left">
+                            {header}
+                        </th>
+                    })
+                }
+            </thead>
+        )
+    }
+    /**
      * Cancel all ajax request in-progress if component is WillUnmount.
      */
     function abortDataTable() {
@@ -90,34 +87,31 @@ export default function Table(props) {
             }
         }
     }
-    function __componentDidMount() {
-        dataTable();
-        props.onRef(dtInstance); //Get reference of this class.
 
-    }
-    function __componentWillUnmount() {
-        props.onRef(null)
+    function __componentWillUnMount() {
+        props.onRef(null);
         abortDataTable();
-        $('.data-table-wrapper').find('table').DataTable().destroy(true);
+        $('.dtCurrentContract_wrapper').find('table').DataTable().destroy(true);
     }
 
     useEffect(() => {
-        __componentDidMount();
-        return __componentWillUnmount;
-    });
+        dataTable();
+        props.onRef(dtInstance); //Get reference of this functional component.
+        return __componentWillUnMount;
+    })
+
     return (
         <div id="dtContainer">
             <table className="table table-condensed table-striped table-hover" ref={dtRef} id={props.id}>
-                <TableHeaders headers={props.headers} />
+                <TableHeaders />
                 {props.headerSearch}
             </table>
         </div >
     );
-
 }
 
 //TypeChecking Props
-Table.propTypes = {
+DataTable.propTypes = {
     id: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     dom: PropTypes.string,
@@ -132,9 +126,6 @@ Table.propTypes = {
 }
 
 //Default Props
-Table.defaultProps = {
+DataTable.defaultProps = {
     columnDefs: []
 }
-
-
-

@@ -4,8 +4,9 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Login from './component/Login';
 import Main from "./component/layout/main";
-import NewDoc from './component/new-doc/NewDoc';
-import tmplPma from './component/templates/Pma';
+import CurrentContract from './component/current/CurrentContract';
+import Dashboard from './component/dashboard/Dashboard';
+import NotFound from './component/NotFound';
 
 const tmplPMA = () => <div>PM Template</div>;
 
@@ -29,21 +30,15 @@ const DashboardRoute = ({ component: Component, headTitle: headTitle, ...rest })
     )
 }
 
-const TemplateRoute = ({ component: Component, headTitle: headTitle, ...rest }) => {
-    return (
-        <Route {...rest}>
-            <Component />
-        </Route>
-    )
-}
 function App() {
     return (
         <Provider store={store}>
             <BrowserRouter basename="/cms">
                 <Switch>
                     <LoginRoute exact path="/login" component={Login} />
-                    <DashboardRoute path="/new-doc" component={NewDoc} headTitle="New Documents" />
-                    <TemplateRoute path="/template/pma" component={tmplPma} headTitle="Printer Management Agreement" />
+                    <DashboardRoute path="/dashboard" component={Dashboard} headTitle="Dashboard" />
+                    <DashboardRoute path="/current" component={CurrentContract} headTitle="Current" />
+                    <Route path="*" component={NotFound} />
                 </Switch>
             </BrowserRouter>
         </Provider>
