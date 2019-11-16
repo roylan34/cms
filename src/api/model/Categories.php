@@ -1,7 +1,5 @@
 <?php
 
-require 'core/database.php';
-
 class Categories{
 
 
@@ -17,7 +15,7 @@ class Categories{
         $this->conn = $db;
     }
 
-    function getAllCategories(){
+    function getListCategories(){
 
         $this->conn->selectQuery('id, cat_name', $this->table);
         return $this->conn->getFields();

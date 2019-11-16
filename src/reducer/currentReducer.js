@@ -5,7 +5,9 @@ import {
 
 const initial_state = {
     isShowForm: false,
-    formTitle: ''
+    formTitle: '',
+    actionForm: '',
+    id: ''
 };
 
 export default function currentReducer(state = initial_state, action) {
@@ -15,7 +17,9 @@ export default function currentReducer(state = initial_state, action) {
             return {
                 ...state,
                 isShowForm: !state.isShowForm,
-                formTitle: action.formTitle
+                formTitle: action.formTitle,
+                actionForm: action.actionForm,
+                id: action.id || ''
             }
             break;
         default:

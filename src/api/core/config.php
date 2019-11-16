@@ -1,5 +1,6 @@
 <?php
 // show error reporting
+// -1 enable, 0 turnoff
 error_reporting(-1);
 
 //set ORIGIN

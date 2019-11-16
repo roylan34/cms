@@ -10,7 +10,7 @@
 
 Class Utils{
 
-	static private $appName = "cms-3";
+	static private $appName = "cms";
 
 	static public function isEmpty($field)
 	{
@@ -64,16 +64,31 @@ Class Utils{
 		return (!preg_match('/<[ \t\n]*script/ui', $html) && !preg_match('/<.*('.$jsEvent.')[ \t\n]*=/ui', $html)  && !preg_match('/.*script\:/ui', $html));
 	}
 
-	static public function encrypt($text) 
-	{ 
-		$crypt_key = "@gTSqK82GADBp.1";
-	    return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $crypt_key, $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)))); 
-	} 
+	static public function encrypt($data)
+	{
+	    $key = '@gTSqK82GADBp.1';
+	    $method = 'AES-256-ECB';
+	    $ivSize = openssl_cipher_iv_length($method);
+	    $iv = openssl_random_pseudo_bytes($ivSize);
 
-	static public function decrypt($text) 
-	{ 
-		$crypt_key = "@gTSqK82GADBp.1";
-	    return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $crypt_key, base64_decode($text), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))); 
+	    $encrypted = openssl_encrypt($data, $method, $key, OPENSSL_RAW_DATA, $iv);
+	    
+	    // For storage/transmission, we simply concatenate the IV and cipher text
+	    $encrypted = base64_encode($iv . $encrypted);
+
+	    return $encrypted;
+	}
+
+	static public function decrypt($data)
+	{
+	    $key = '@gTSqK82GADBp.1';
+	    $method = 'AES-256-ECB';
+	    $data = base64_decode($data);
+	    $ivSize = openssl_cipher_iv_length($method);
+	    $iv = substr($data, 0, $ivSize);
+	    $decrypted = openssl_decrypt(substr($data, $ivSize), $method, $key, OPENSSL_RAW_DATA, $iv);
+
+	    return $decrypted;
 	}
 
 	static public function jsonEncode($arr)
@@ -150,7 +165,7 @@ Class Utils{
 	    return $protocol.$hostName.$pathInfo['dirname']."/";
 	}
 
-	static public function getImagePath($dirImage) 
+	static public function getFilePath($dirName) 
 	{
 	    // output: /myproject/index.php
 	    $currentPath = $_SERVER['PHP_SELF']; 
@@ -162,12 +177,12 @@ Class Utils{
 	    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https://'?'https://':'http://';
 	   
 	    // return: http://localhost/myproject/
-	     return $protocol.$hostName."/".self::$appName."/assets/attachment/".$dirImage;
+	     return $protocol.$hostName."/".self::$appName."/assets/attachment/".$dirName;
 	}
 
-	static public function getImages($dirImage){
-		 $tmp_dir =  $_SERVER['DOCUMENT_ROOT'].'/'.self::$appName.'/assets/attachment/'.$dirImage; //Get the relative path.
-		 $imgPath = self::getImagePath($dirImage);
+	static public function getFiles($dirName){
+		 $tmp_dir =  $_SERVER['DOCUMENT_ROOT'].'/'.self::$appName.'/assets/attachment/'.$dirName; //Get the relative path.
+		 $imgPath = self::getFilePath($dirName);
          $array_files = array();
          
          // $files = array_slice(scandir($tmp_dir),2); //Scan only 1 level directory from $tmp_dir with DESCENDING ORDER = 1.
@@ -175,15 +190,16 @@ Class Utils{
 	         $files = scandir($tmp_dir);
 	         $scan_files = array_slice($files,2);
 		         foreach ($scan_files as $key => $value) {
-		         	$array_files[$key]['imagename'] = $value; //In case of error use mb_convert_encoding()
-		         	$array_files[$key]['imagepath'] = $imgPath.'/'.rawurlencode($value);
+		         	$array_files[$key]['uid'] = $key; //In case of error use mb_convert_encoding()
+		         	$array_files[$key]['name'] = $value; //In case of error use mb_convert_encoding()
+		         	$array_files[$key]['url'] = $imgPath.'/'.rawurlencode($value);
 		         }
 	    }
      	
          return $array_files;
 	}
-	static public function getImageServerPath($dirImage){
-		return $_SERVER['DOCUMENT_ROOT'].'/'.self::$appName.'/assets/attachment/'.$dirImage;
+	static public function getFileServerPath($dirName){
+		return $_SERVER['DOCUMENT_ROOT'].'/'.self::$appName.'/assets/attachment/'.$dirName;
 	} 
 
 	/**

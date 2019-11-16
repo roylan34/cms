@@ -1,8 +1,9 @@
+import moment from 'moment';
 /** 
  * @param {*} value - Check if value is empty
  * @return {boolean} true | false
  */
-export let isEmpty = value => value === null || value === '';
+export let isEmpty = value => value === null || value === '' || value === undefined;
 
 /**
  * @param {*} value - Check if value is empty.
@@ -31,4 +32,14 @@ export let splitStrToArrInt = (arrStr) => {
     }
     return null;
 
+}
+/**
+ * @param {object} momentObj - Moment object that convert to date string
+ */
+export let momentObjToString = (momentObj) => {
+
+    if (moment.isMoment(momentObj)) {
+        return momentObj.format('YYYY-MM-DD');
+    }
+    throw new TypeError('Invalid moment object');
 }

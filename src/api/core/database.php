@@ -1,4 +1,6 @@
 <?php 
+
+require_once 'dbErrorHandler.php';
 /**
 * 01/25/2017
 * Developed by: Delsan Web Development Team
@@ -7,7 +9,7 @@
 *
 */
 
-Class Database{
+Class Database extends DbErrorHandler{
 
 	private static $instance;
 	public $row_count   = 0;
@@ -38,7 +40,9 @@ Class Database{
 			if(!$this->conn->set_charset('utf8')){
 				printf("Error loading character set utf8 %s\n",$this->conn->connect_error);
 				exit();
-			}
+            }
+            
+            $this->enable_err = 1; //turn-on custom error reporting
 	}
 
 	static public function getInstance($dbParams = array()){
@@ -61,12 +65,13 @@ Class Database{
 				while ($row = $res->fetch_assoc()) {
                     $this->fields['status']= 'success';
 					$this->fields['aaData'][] = $row;
-				}
+                }
+
 			}
 			else { $this->emptyFields(); } //return empty data.
 		}
 		else{
-			trigger_error('Something wrong of query: '. $qry);
+            $this->db_error($qry);
 		}
 	}
 
@@ -76,9 +81,8 @@ Class Database{
 
 		if($this->conn->query($qry) === TRUE){
             $this->fields['status']= 'success';
-			$this->fields['aaData'][] = "";
 		}else{
-			trigger_error('Something wrong of query: '. $qry);
+            $this->db_error($qry);
 		}
 	}
 
@@ -113,9 +117,8 @@ Class Database{
 
 			if($this->conn->query($qry) === TRUE){
                 $this->fields['status']= 'success';
-				$this->fields['aaData'][] = '';
 			}else{
-				trigger_error('Something wrong of query: '. $qry);
+				$this->db_error($qry);
 			}
 
 	}
@@ -126,9 +129,8 @@ Class Database{
 		if($this->conn->query($qry) === TRUE){
             $this->last_insert_id = $this->conn->insert_id;
             $this->fields['status']= 'success';
-			$this->fields['aaData'][] = '';
 		}else{
-			trigger_error('Something wrong of query: '. $qry);
+			$this->db_error($qry);
 		}
 	}
 
@@ -140,9 +142,8 @@ Class Database{
 	     	$qry = "INSERT INTO {$table_name} ({$fields}) VALUES ". implode(',',$query_values);
 		     	if($this->conn->query($qry) === TRUE){
                     $this->fields['status']= 'success';
-					$this->fields['aaData'][] = '';
 				}else{
-					trigger_error('Something wrong of query: '. $qry);
+					 $this->db_error($qry);
 				}
 	    }
 	    else{
@@ -162,9 +163,8 @@ Class Database{
 	    $qry = "INSERT INTO {$table_name} ({$fields}) VALUES ".implode(",", $values)."";
     		if($this->conn->query($qry) === TRUE){
                 $this->fields['status']= 'success';
-				$this->fields['aaData'][] = '';
 			}else{
-				trigger_error('Something wrong of query: '. $qry);
+				 $this->db_error($qry);
 			}
 
 	}
@@ -173,9 +173,8 @@ Class Database{
 		$qry = 'DELETE FROM '.$table_name.' WHERE '.$fields;
 		if($this->conn->query($qry) === TRUE){
             $this->fields['status']= 'success remove';
-			$this->fields['aaData'][] = '';
 		}else{
-			trigger_error('Something wrong of query: '. $qry);
+			$this->db_error($qry);
 		}
 	}
 
@@ -183,9 +182,8 @@ Class Database{
 		$qry = $custom;
 		if($this->conn->query($qry) === TRUE){
             $this->fields['status']= 'success';
-			$this->fields['aaData'][] = '';
 		}else{
-			trigger_error('Something wrong of query: '. $qry);
+			$this->db_error($qry);
 		}
 	}
 	public function selectQuery2($custom){
@@ -204,7 +202,7 @@ Class Database{
 			else { $this->emptyFields(); } //return empty data.
 		}
 		else{
-			trigger_error('Something wrong of query: '. $qry);
+			$this->db_error($qry);
 		}
 	}
 	public function storProc($storedProc_name){
@@ -224,7 +222,7 @@ Class Database{
 			else { $this->emptyFields(); } //return empty data.
 		}
 		else{
-			trigger_error('Something wrong of query: '. $qry);
+			$this->db_error($qry);
 		}
 	}
 

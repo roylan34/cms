@@ -11,8 +11,8 @@ import './assets/layouts/css/skins/skin-green.min.css'; //AdminLTE Skins use cla
 import '../node_modules/datatables.net-bs/css/dataTables.bootstrap.min.css';
 import '../node_modules/datatables.net-responsive-bs/css/responsive.bootstrap.min.css';
 import '../node_modules/datatables.net-buttons-bs/css/buttons.bootstrap.min.css';
-import './assets/css/cms.css';
-import './assets/css/media.css';
+import './assets/css/cms.less';
+import './assets/css/media.less';
 
 //JS
 import $ from 'jquery';
