@@ -6,11 +6,13 @@ require 'core/utils.php';
 require 'core/fileUpload.php';
 require 'core/file.php';
 require 'model/Contract.php';
+require 'model/Contract_logs.php';
 require 'model/Renew.php';
 
 
 $contract = new Contract();
 $renew = new Renew();
+$logs = new ContractLogs();
 
 $action         = Utils::getValue('action');
 $data = array(
@@ -29,6 +31,9 @@ switch ($action) {
     case 'add':
             $resAdd = $contract->add($data);
             if($resAdd['status'] =='success'){
+                //Log action
+                $logs->add(Utils::upperCase($action), $resAdd['last_id'], $data['category']);
+
                 //Upload attachment
                 $isValid = validateFileUpload($_FILES);
                 if($isValid['valid_attachment_status']== 'ok'){
@@ -49,6 +54,9 @@ switch ($action) {
 
         if($resUpdate['status'] =='success'){
             $parent_dir = Utils::getValue('attachment_dir');
+
+            //Log action
+            $logs->add(Utils::upperCase($action), $data['id'], $data['category']);
 
             //Insert renewal history
             $resRenew = $renew->add($data);
@@ -76,6 +84,9 @@ switch ($action) {
         $resUpdate = $contract->update($data);
         if($resUpdate['status'] =='success'){
             $status     = $contract->getStatus($data['id']) ;
+
+            //Log action
+            $logs->add(Utils::upperCase($action), $data['id'], $data['category']);
 
             $existing_parent_dir = $data['attachment_dir'];
             $existing_renew_dir = $data['attachment_renew_dir'];
