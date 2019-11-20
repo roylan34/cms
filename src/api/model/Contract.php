@@ -6,7 +6,7 @@ class Contract{
 private $table = "tbl_contracts";
 protected $conn = null;
 
-    function __construct(){
+    public function __construct(){
 
         $db = Database::getInstance();
         if($db == null){
@@ -15,7 +15,7 @@ protected $conn = null;
         $this->conn = $db;
     }
 
-    function add($data){
+    public function add($data){
         $this->conn->insertQuery($this->table,'sap_company_id, category, valid_from, valid_to, days_to_reminds, notes, created_at',
 									    '"'.$data['comp'].'",
 									    "'.$data['category'].'",
@@ -30,7 +30,7 @@ protected $conn = null;
 
             return $res;
     }
-    function update($data){
+    public function update($data){
         if($data['id']){
             $this->conn->updateQuery($this->table, 
                                     "sap_company_id='".$data['comp']."',
@@ -43,7 +43,7 @@ protected $conn = null;
             return $this->conn->getFields();
         }
     }
-    function updateRenew($data){
+    public function updateRenew($data){
         if($data['id']){
             $this->conn->updateQuery($this->table, 
                                     "category   ='".$data['category']."',
@@ -56,20 +56,42 @@ protected $conn = null;
             return $this->conn->getFields();
         }
     }
-    function updateStatus($id, $status){
+    public function updateStatus($id, $status){
         if($id){
             $this->conn->updateQuery($this->table, "status ='".$status."' ", "id='".$id."'");
             return $this->conn->getFields();
         }
     }
-    function getStatus($id){
-        $res = $this->conn->selectQuery("status","{$this->table} WHERE id={$id} LIMIT 1");
+    public function getStatus($id){
+        $this->conn->selectQuery("status","{$this->table} WHERE id={$id} LIMIT 1");
         $res = $this->conn->getFields();
         return $res['aaData'][0]['status'];
     }
-    function getCurrent(){
+    public function getCurrent($data){
         $search = "";
         $limit  = "";
+
+            if($data['comp'])       { $search .= "AND comp.company_name LIKE '%".$data['comp']."%'"; }
+            if($data['category'])   { $search .= "AND cnt.category LIKE '%".$data['category']."%'"; }
+            if($data['valid_from']) { $search .= "AND cnt.valid_from LIKE '%".$data['valid_from']."%'"; }
+            if($data['valid_to'])   { $search .= "AND cnt.valid_to LIKE '%".$data['valid_to']."%'"; }
+            if($data['status'])     { 
+                switch ($data['status']) {
+                    case 'active':
+                        $search .= "AND DATEDIFF(cnt.valid_to, CURDATE()) > cnt.days_to_reminds";
+                        break;
+                    case 'notify':
+                        $search .= "AND DATEDIFF(cnt.valid_to, CURDATE()) BETWEEN 1 AND cnt.days_to_reminds";
+                        break;
+                    case 'expired':
+                        $search .= "AND DATEDIFF(cnt.valid_to, CURDATE()) <= 0";
+                        break;
+                    
+                    default:
+                       throw new Exception("Action type not found.");
+                        break;
+                }
+            }
 
             $requestData= $_REQUEST;
 			// storing  request (ie, get/post) global array to a variable  
@@ -82,7 +104,7 @@ protected $conn = null;
 
              $this->conn->selectQuery('*, comp.company_name',"{$this->table} cnt 
                                         LEFT JOIN dbmif.tbl_company_auto_import comp ON cnt.sap_company_id = comp.id
-                                        WHERE cnt.status IN ('INITIAL','RENEW')) {$search}");
+                                        WHERE cnt.status IN ('INITIAL','RENEW') {$search}");
 
 				 $this->conn->fields = null;
 				$totalFiltered  =  $this->conn->getNumRows(); // when there is a search parameter then we have to modify total number filtered rows as per search result. 
@@ -128,7 +150,7 @@ protected $conn = null;
 			}
 			return $json_data;  // send data as json format.
     }
-    function getArchive(){
+    public function getArchive(){
         $search = "";
         $limit  = "";
 
@@ -154,19 +176,11 @@ protected $conn = null;
 			
 			if(intval($requestData['length']) >= 1 ) { $limit = 'LIMIT '.$requestData['start'].' ,'.$requestData['length'].''; }
             
-            $this->conn->selectQuery('cnt.id, comp.company_name, cat.cat_name, cnt.valid_from, cnt.valid_to, cnt.status, cnt.created_at,
-                                        (
-                                            CASE
-                                                WHEN DATEDIFF(cnt.valid_to, CURDATE()) > cnt.days_to_reminds THEN "ACTIVE"
-                                                WHEN DATEDIFF(cnt.valid_to, CURDATE()) BETWEEN 1 AND cnt.days_to_reminds THEN "NOTIFYING"
-                                                WHEN DATEDIFF(cnt.valid_to, CURDATE()) <= 0 THEN "EXPIRED"
-                                                ELSE ""
-                                            END
-                                        ) AS notify_status
+            $this->conn->selectQuery('cnt.id, comp.company_name, cat.cat_name, cnt.valid_from, cnt.valid_to, cnt.status, cnt.created_at
                                         ',"{$this->table} cnt 
                                         LEFT JOIN dbmif.tbl_company_auto_import comp ON cnt.sap_company_id = comp.id
                                         LEFT JOIN tbl_categories cat ON cnt.category = cat.id
-                                        WHERE cnt.status IN ('CANCEL','CLOSED') {$search} ORDER BY cnt.id DESC {$limit}");
+                                        WHERE cnt.status IN ('CANCEL','CLOSED') {$search} ORDER BY cnt.updated_at DESC {$limit}");
 			$row =  $this->conn->getFields(); //Get all rows
 
 			if( $this->conn->getNumRows() > 0 ){
@@ -190,18 +204,18 @@ protected $conn = null;
 			return $json_data;  // send data as json format.
     }
 
-    function getCurrentById($id){
+    public function getCurrentById($id){
         $this->conn->selectQuery('cnt.*, ren.attachment AS ren_attachment', "{$this->table} cnt 
                                 LEFT JOIN tbl_renewal_history ren ON cnt.id = ren.id_contract
                                 WHERE cnt.id={$id} ORDER BY ren.id DESC LIMIT 1");
         return $this->conn->getFields();
     }
 
-    function updateAttachmentName($id, $name){
+    public function updateAttachmentName($id, $name){
         $this->conn->updateQuery($this->table, "attachment='{$name}'", "id={$id}");
         return $this->conn->getFields();
     }
-    function emptyFields(){
+    public function emptyFields(){
         $this->conn->fields = null;
     }
     

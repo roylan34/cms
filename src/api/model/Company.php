@@ -7,7 +7,7 @@ class Company{
     protected $conn = null;
 
 
-    function __construct(){
+    public function __construct(){
         $db_mif = array('db_name'=> 'dbmif', 'db_host' => 'localhost', 'db_user'=> 'root', 'db_pass'=> '');
         $db = Database::getInstance($db_mif);
         if($db == null){
@@ -16,12 +16,12 @@ class Company{
         $this->conn = $db;
     }
 
-    function getListCompany($comp_name){
+    public function getListCompany($comp_name){
         $search = (!empty($comp_name) ? "WHERE company_name LIKE '%{$comp_name}%'" : "");
         $this->conn->selectQuery('id, company_name', $this->table." $search LIMIT 10");
         return $this->conn->getFields();
     }
-    function getCompanyNameById($id){
+    public function getCompanyNameById($id){
         $search = (!empty($id) ? "WHERE id={$id}" : "");
         $this->conn->selectQuery('id, company_name', $this->table." $search LIMIT 1");
         return $this->conn->getFields();

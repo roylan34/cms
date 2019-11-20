@@ -108,8 +108,9 @@ export default function Table(props) {
     return (
         <div id="dtContainer">
             <table className="table table-condensed table-striped table-hover" ref={dtRef} id={props.id}>
-                <TableHeaders headers={props.headers} />
                 {props.headerSearch}
+                <TableHeaders headers={props.headers} />
+
             </table>
         </div >
     );

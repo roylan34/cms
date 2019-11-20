@@ -10,9 +10,16 @@ $contract = new Contract();
 
 $action = Utils::getValue('action');
 $id     = Utils::getValue('id');
+$data   = array(
+    'comp'        => Utils::getValue('comp'),
+    'category'    => Utils::getValue('category'),
+    'valid_from'  => Utils::getValue('valid_from'),
+    'valid_to'    => Utils::getValue('valid_to'),
+    'status'      => Utils::getValue('status')
+);
 switch ($action) {
     case 'all':
-            print Utils::jsonEncode($contract->getCurrent());
+            print Utils::jsonEncode($contract->getCurrent($data));
         break;
     case 'edit':
             $status = $contract->getStatus($id);

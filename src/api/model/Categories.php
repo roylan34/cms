@@ -7,7 +7,7 @@ class Categories{
     protected $conn = null;
 
 
-    function __construct(){
+    public function __construct(){
         $db = Database::getInstance();
         if($db == null){
             throw new Exception("Failed to connect database.");
@@ -15,7 +15,7 @@ class Categories{
         $this->conn = $db;
     }
 
-    function getListCategories(){
+    public function getListCategories(){
 
         $this->conn->selectQuery('id, cat_name', $this->table);
         return $this->conn->getFields();

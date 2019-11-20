@@ -13,7 +13,7 @@ export default function CurrentContract(props) {
         <div>
             <DataTable
                 id="dtArchiveContract"
-                url="get_current.php"
+                url="get_archive.php"
                 param={d => {
                     delete d.columns; //Remove built-in paramaters.
                     d.action = "all";
@@ -27,10 +27,9 @@ export default function CurrentContract(props) {
                     "Valid from",
                     "Valid to",
                     "Status",
-                    "Updated at",
-                    ""
+                    "Created at"
                 ]}
-                headerSearch={<HeaderSearch />}
+                // headerSearch={<HeaderSearch />}
                 columns={[
                     {
                         data: null,
@@ -67,7 +66,6 @@ export default function CurrentContract(props) {
                         render: function (data, type, row, meta) {
                             const status = data.status;
                             let badge = "";
-                            let status = "";
                             if (status === "CANCEL") {
                                 badge = "orange";
                             }

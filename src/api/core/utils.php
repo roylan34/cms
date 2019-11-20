@@ -14,7 +14,7 @@ Class Utils{
 
 	static public function isEmpty($field)
 	{
-		return $field === '' OR $field === NULL;
+		return $field === '' OR $field === NULL OR $field === 'undefined';
 	}
 
 	/**

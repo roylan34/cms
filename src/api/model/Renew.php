@@ -5,7 +5,7 @@ class Renew{
 private $table = "tbl_renewal_history";
 protected $conn = null;
 
-    function __construct(){
+    public function __construct(){
 
         $db = Database::getInstance();
         if($db == null){
@@ -14,7 +14,7 @@ protected $conn = null;
         $this->conn = $db;
     }
 
-    function add($data){
+    public function add($data){
         $this->conn->insertQuery($this->table,'id_contract, category, valid_from, valid_to, status',
 									    '"'.$data['id'].'",
 									    "'.$data['category'].'",
@@ -27,10 +27,10 @@ protected $conn = null;
 
             return $res;
     }
-    function emptyFields(){
+    public function emptyFields(){
         $this->conn->fields = null;
     }
-    function updateAttachmentName($id, $name){
+    public function updateAttachmentName($id, $name){
         $this->conn->updateQuery($this->table, "attachment='{$name}'", "id={$id}");
         return $this->conn->getFields();
     }

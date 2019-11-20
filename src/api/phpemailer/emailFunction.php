@@ -32,7 +32,7 @@ function _EMAIL($recipients,$cc,$subject,$body,$identifier){
 	}
 	
 	
-	//$mail->AddAddress("ryan.cardoza@delsanonline.com", "Ryan");
+	//$mail->AddAddress("roelangeil.utech@gmail.com", "Roe");
 	$mail->Subject = $subject;
 	$mail->IsHTML(true);
 	$mail->Body = $body;

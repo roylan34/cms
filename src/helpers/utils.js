@@ -41,5 +41,6 @@ export let momentObjToString = (momentObj) => {
     if (moment.isMoment(momentObj)) {
         return momentObj.format('YYYY-MM-DD');
     }
-    throw new TypeError('Invalid moment object');
+    return;
+    // throw new TypeError('Invalid moment object');
 }

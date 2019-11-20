@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Select, DatePicker, Input, Upload, Icon, Form, notification, Spin, Row, Col } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import _debounce from 'lodash.debounce';
-import { fetchCategories, fetchComp, fetchCompById } from './../../actions/drpAction';
+import { fetchComp, fetchCompById } from './../../actions/drpAction';
 import { isEmpty, momentObjToString } from '../../helpers/utils';
 import { API_URL } from '../../helpers/constant';
+import { SelectCategory } from '../../helpers/dropdown';
 import CurrentServices from '../../services/currentServices.js';
 import File from '../../helpers/fileUpload';
 import './style/form.less';
@@ -104,7 +105,6 @@ function FormCurrent(props) {
     const dispatch = useDispatch();
     const [stateAttach, setStateAttach] = useState({ dir: '', dir_ren: '', remove_file: [] });
 
-    const opt_cat = state_drp.categories.map(opt => <Option key={opt.id} value={opt.id}>{opt.cat_name}</Option>)
     const opt_comp = state_drp.comp.data.map(opt => <Option key={`id-${opt.id}`} value={opt.id}>{opt.company_name}</Option>)
     const delayedSearchComp = _debounce((e) => onSearchCompany(e), 500);
 
@@ -195,10 +195,6 @@ function FormCurrent(props) {
             }
         }
     };
-    useEffect(() => {
-        console.log('render1');
-        dispatch(fetchCategories());
-    }, []); //empty depedencies will render only once
 
     useEffect(() => {
         console.log('render2');
@@ -208,7 +204,10 @@ function FormCurrent(props) {
             resetState();
             resetFields();
         };
-    }, [state_form]);
+    }, [state_form.isShowForm,
+    state_form.formTitle,
+    state_form.actionForm,
+    state_form.id]);
 
 
     return (
@@ -228,13 +227,9 @@ function FormCurrent(props) {
                                 {
                                     getFieldDecorator('category', {
                                         rules: [{ required: true, message: 'this field is required' }],
-                                    })(<Select allowClear={true}
+                                    })(<SelectCategory
                                         name="category"
-                                        placeholder="Select category"
-                                        style={{ width: '100%' }}
-                                    >
-                                        {opt_cat}
-                                    </Select>
+                                        placeholder="Select category" />
                                     )}
                             </Form.Item>
                         </div>

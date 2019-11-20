@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Modal } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DataTable from '../../helpers/table';
 import HeaderSearch from './CurrentSearch';
 import FormCurrent from './Form';
 import CurrentServices from '../../services/currentServices.js';
+import { momentObjToString } from '../../helpers/utils';
 
 export default function CurrentContract(props) {
 
     let dtInstance = null;
+    let toggleSearch = useRef();
     const dispatch = useDispatch();
+    const state_current = useSelector(state => state.currentReducer.search);
 
     useEffect(() => {
         //Attached and delegate event to tbody
@@ -32,7 +35,6 @@ export default function CurrentContract(props) {
                     title: 'Confirmation',
                     content: 'Are you sure you want to CANCEL CONTRACT?',
                     onOk() { CurrentServices.updateStatus(id_attr, 'CANCEL') },
-                    onCancel() { console.log('cancel') }
                 });
             }
             else if (_class.contains('btnCloseContract')) {
@@ -40,12 +42,11 @@ export default function CurrentContract(props) {
                     title: 'Confirmation',
                     content: 'Are you sure you want to CLOSE CONTRACT?',
                     onOk() { CurrentServices.updateStatus(id_attr, 'CLOSED') },
-                    onCancel() { console.log('cancel') }
                 });
             }
         });
 
-    })
+    });
 
 
     return (
@@ -57,6 +58,11 @@ export default function CurrentContract(props) {
                 param={d => {
                     delete d.columns; //Remove built-in paramaters.
                     d.action = "all";
+                    d.comp = state_current.comp;
+                    d.category = state_current.category;
+                    d.valid_from = momentObjToString(state_current.valid_from);
+                    d.valid_to = momentObjToString(state_current.valid_to);
+                    d.status = state_current.status;
                 }}
                 onRef={ref => (dtInstance = ref)}
                 dom="Blrtip"
@@ -70,7 +76,7 @@ export default function CurrentContract(props) {
                     "Updated at",
                     ""
                 ]}
-                headerSearch={<HeaderSearch />}
+                headerSearch={<HeaderSearch span="8" />}
                 columns={[
                     {
                         data: null,
@@ -167,9 +173,19 @@ export default function CurrentContract(props) {
                         }
                     },
                     {
-                        text: '<i class="fa fa-search" aria-hidden="true"></i> Open Search',
+                        text: '<i class="fa fa-search" aria-hidden="true"></i> Open Searchs',
                         className: "",
-                        action: function () {
+                        action: function (e, dt, node, config) {
+                            if (toggleSearch.current) {
+                                node[0].innerText = "Open Search";
+                                toggleSearch.current = false;
+                                document.querySelector('.search-transition-height').classList.remove('transition-height');
+                            } else {
+                                node[0].innerText = "Close Search";
+                                toggleSearch.current = true;
+                                document.querySelector('.search-transition-height').classList.add('transition-height');
+                            }
+
                         }
                     },
                 ]}

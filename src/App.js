@@ -4,9 +4,11 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Login from './component/Login';
 import Main from "./component/layout/main";
-import CurrentContract from './component/current/CurrentContract';
 import Dashboard from './component/dashboard/Dashboard';
 import NotFound from './component/NotFound';
+
+import CurrentContract from './component/current/CurrentContract';
+import ArchiveContract from './component/archive/ArchiveContract';
 
 const tmplPMA = () => <div>PM Template</div>;
 
@@ -38,6 +40,7 @@ function App() {
                     <LoginRoute exact path="/login" component={Login} />
                     <DashboardRoute path="/dashboard" component={Dashboard} headTitle="Dashboard" />
                     <DashboardRoute path="/current" component={CurrentContract} headTitle="Current" />
+                    <DashboardRoute path="/archive" component={ArchiveContract} headTitle="Archive" />
                     <Route path="*" component={NotFound} />
                 </Switch>
             </BrowserRouter>

@@ -1,35 +1,83 @@
-import React from "react";
-import { isEmpty, makeId } from "../../helpers/utils";
-import Cookies from '../../helpers/cookies';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Form, Input, DatePicker, Select, Row, Col } from "antd";
+import { SelectCategory } from '../../helpers/dropdown';
 
-export default function CurrentHeaderSearch(props) {
+function CurrentHeaderSearch(props) {
+
+    const { getFieldDecorator, resetFields, validateFields } = props.form;
+    const { Option } = Select;
+    const dispatch = useDispatch();
+
+    function handleSearch(e) {
+        e.preventDefault();
+        validateFields((err, val) => {
+            if (!err && Object.values(val).some(val => val !== undefined)) { //Trigger search only if least one of them has value.
+                dispatch({ type: 'CURRENT_SEARCH', search: val });
+            }
+        });
+    }
+
+    function handleClear() {
+        dispatch({ type: 'CURRENT_SEARCH', search: {} });
+        resetFields();
+    }
+
+    useEffect(() => {
+        console.log('render search');
+    })
 
     return (
         <React.Fragment>
-            <thead className="dt-head-search" style={{ display: "none" }}>
+            <caption className="dt-head-search" style={{ captionSide: 'top' }}>
                 {/** Custom header search */}
-                <tr>
-                    <th className="text-center" colSpan="">
-                        <div className="row">
-                            <ul className="col-md-12 col-sm-12 list-inline">
-                                <li className="col-md-2 col-sm-12 col-xs-12 dt-searchfield">
-                                    <select
-                                        name="delsan_comp"
-                                        // onChange={this.props.onSearch}
-                                        // value={this.props.stateVal.delsan_comp}
-                                        id="search-company-delsan"
-                                        className="form-control"
-                                    >
-                                        <option>---</option>
-                                        <option value="dosc">DOSC</option>
-                                        <option value="dbic">DBIC</option>
-                                    </select>
-                                </li>
-                            </ul>
-                        </div>
-                    </th>
-                </tr>
-            </thead>
+                <div className="search-transition-height">
+
+                    <Row type="flex" gutter={[8, 8]}>
+                        <Col span={4}>
+                            <Form.Item>
+                                {getFieldDecorator('comp')(<Input placeholder="Company" />)}
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item>
+                                {getFieldDecorator('category')(<SelectCategory placeholder="Select category" />)}
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item>
+                                {getFieldDecorator('valid_from')(<DatePicker placeholder="Valid from" />)}
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item>
+                                {getFieldDecorator('valid_to')(<DatePicker placeholder="Valid to" />)}
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item>
+                                {getFieldDecorator('status')(
+                                    <Select style={{ width: '100%' }} placeholder="Status">
+                                        <Option value="active">ACTIVE</Option>
+                                        <Option value="notify">NOTIFYING</Option>
+                                        <Option value="expired">EXPIRED</Option>
+                                    </Select>
+                                )}
+                            </Form.Item>
+                        </Col>
+                        <Col>
+                            <Form.Item><button className="btn btn-sm btn-flat btn-primary" onClick={handleSearch}>Search</button></Form.Item>
+                        </Col>
+                        <Col>
+                            <Form.Item><button className="btn btn-sm btn-flat btn-warning" onClick={handleClear}>Clear</button></Form.Item>
+                        </Col>
+                    </Row>
+                </div>
+
+            </caption>
         </React.Fragment>
     );
 }
+
+const WrappedCurrentSearch = Form.create()(CurrentHeaderSearch);
+export default WrappedCurrentSearch;

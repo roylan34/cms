@@ -1,5 +1,6 @@
 import {
-    SHOW_FORM
+    SHOW_FORM,
+    CURRENT_SEARCH
 } from '../actions/currentAction'
 
 
@@ -7,7 +8,8 @@ const initial_state = {
     isShowForm: false,
     formTitle: '',
     actionForm: '',
-    id: ''
+    id: '',
+    search: {}
 };
 
 export default function currentReducer(state = initial_state, action) {
@@ -20,6 +22,12 @@ export default function currentReducer(state = initial_state, action) {
                 formTitle: action.formTitle,
                 actionForm: action.actionForm,
                 id: action.id || ''
+            }
+            break;
+        case CURRENT_SEARCH:
+            return {
+                ...state,
+                search: { ...action.search },
             }
             break;
         default:
