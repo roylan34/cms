@@ -16,7 +16,7 @@ protected $conn = null;
         $this->conn = $db;
     }
 
-    public function add($action, $id, $cat){
+    public function add($action, $id, ?int $cat = null){
         $this->conn->insertQuery($this->table,'id_contract, category, action',
                                 ''.$id.',
                                 '.$cat.',
