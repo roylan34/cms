@@ -9,7 +9,7 @@ export let isEmpty = value => value === null || value === '' || value === undefi
  * @param {*} value - Check if value is empty.
  * @return {string} Return empty string.
  */
-export let isEmptyStr = value => (value === null || value === '' ? '' : value);
+export let isEmptyStr = value => (value === null || value === '' || value === undefined ? '' : value);
 
 /**
  * Generate random string.

@@ -3,7 +3,7 @@ import { Modal, Select, DatePicker, Input, Upload, Icon, Form, notification, Spi
 import { useSelector, useDispatch } from 'react-redux';
 import _debounce from 'lodash.debounce';
 import { fetchComp, fetchCompById } from './../../actions/drpAction';
-import { isEmpty, momentObjToString } from '../../helpers/utils';
+import { isEmpty, momentObjToString, isEmptyStr } from '../../helpers/utils';
 import { API_URL } from '../../helpers/constant';
 import { SelectCategory } from '../../helpers/dropdown';
 import CurrentServices from '../../services/currentServices.js';
@@ -17,7 +17,7 @@ const submitData = (stateForm, data, reset, state, setFieldsValue) => {
     const { comp, category, valid_from, valid_to, days_to_reminds, notes, attachment } = data;
     const { id, actionForm } = stateForm;
     // const user_id = jwt.get('user_id');
-    const param = { action: actionForm, comp, category, valid_from: momentObjToString(valid_from), valid_to: momentObjToString(valid_to), days_to_reminds, notes };
+    const param = { action: actionForm, comp, category, valid_from: momentObjToString(valid_from), valid_to: momentObjToString(valid_to), days_to_reminds, notes: isEmptyStr(notes) };
     const url = `${API_URL}/action_current.php`;
 
     if (actionForm == 'add') {
