@@ -29,7 +29,7 @@ protected $conn = null;
                                 LEFT JOIN tbl_categories cat ON logs.category = cat.id
                                 WHERE logs.id_contract={$id}");
         $res = $this->conn->getFields();
-        return $res['aaData'];
+        return $res;
     }
 }
 ?>

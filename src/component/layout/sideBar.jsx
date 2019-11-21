@@ -32,7 +32,7 @@ const SideBar = (props) => {
                     <li id='contract-current'><NavLink to="/current"><i className="fa fa-pencil-square-o"></i>Current</NavLink></li>
                     <li id='contract-archive'><NavLink to="/archive"><i className="fa fa-archive"></i>Archive</NavLink></li>
                     <li className="header">MISC</li>
-                    <li id="accounts"><a href="#"><i className="fa fa-address-book"></i><span>Accounts</span></a></li>
+                    <li id='accounts'><NavLink to="/account"><i className="fa fa-address-book"></i>Accounts</NavLink></li>
                     <li id="settings"><a href="#"><i className="fa fa-cogs"></i><span>Settings</span></a></li>
                 </ul>
                 {/* /.sidebar-menu */}

@@ -60,7 +60,7 @@ export default function Table(props) {
             "ajax": {
                 "url": `${API_URL}/${props.url}`,
                 "type": "POST",
-                "dataSrc": 'records',
+                "dataSrc": 'aaData',
                 "data": props.param
             },
             "buttons": props.buttons,
