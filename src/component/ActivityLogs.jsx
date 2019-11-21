@@ -10,7 +10,6 @@ export default function ActivityLogs() {
 
     useEffect(() => {
         console.log('rerender logs');
-        // return () => (null);
     }, [state_logs.selected_row_id]);
 
     return (
@@ -47,7 +46,7 @@ export default function ActivityLogs() {
                             {
                                 data: null,
                                 render: function (data, type, row, meta) {
-                                    return data.category;
+                                    return data.cat_name;
                                 }
                             },
                             {

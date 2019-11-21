@@ -31,30 +31,30 @@ function CurrentHeaderSearch(props) {
         <React.Fragment>
             <caption className="dt-head-search" style={{ captionSide: 'top' }}>
                 {/** Custom header search */}
-                <div className="search-transition-height">
+                <div className="">
 
-                    <Row type="flex" gutter={[8, 8]}>
-                        <Col span={4}>
+                    <Row type="flex" gutter={[8, 8]} align="middle" justify='space-around' className="search">
+                        <Col xs={24} sm={12} md={4}>
                             <Form.Item>
                                 {getFieldDecorator('comp')(<Input placeholder="Company" />)}
                             </Form.Item>
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={12} md={4}>
                             <Form.Item>
                                 {getFieldDecorator('category')(<SelectCategory placeholder="Select category" />)}
                             </Form.Item>
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('valid_from')(<DatePicker placeholder="Valid from" />)}
+                                {getFieldDecorator('valid_from')(<DatePicker style={{ width: '100%' }} placeholder="Valid from" />)}
                             </Form.Item>
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('valid_to')(<DatePicker placeholder="Valid to" />)}
+                                {getFieldDecorator('valid_to')(<DatePicker style={{ width: '100%' }} placeholder="Valid to" />)}
                             </Form.Item>
                         </Col>
-                        <Col span={4}>
+                        <Col xs={24} sm={12} md={4}>
                             <Form.Item>
                                 {getFieldDecorator('status')(
                                     <Select style={{ width: '100%' }} placeholder="Status">

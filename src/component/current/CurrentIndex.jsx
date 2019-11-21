@@ -2,17 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from '../../helpers/table';
-import HeaderSearch from './CurrentSearch';
-import FormCurrent from './Form';
-import ActivityLogs from './../ActivityLogs';
+import CurrentSearch from './CurrentSearch';
+import CurrentForm from './CurrentForm';
+import ActivityLogs from '../ActivityLogs';
 import CurrentServices from '../../services/currentServices.js';
 import { momentObjToString } from '../../helpers/utils';
-import { instanceOf } from 'prop-types';
 
 export default function CurrentContract(props) {
 
-    let dtInstance = null;
-    let toggleSearch = useRef();
+    let dtInstance = useRef();
+    let toggleSearch = null;
     const dispatch = useDispatch();
     const state_current = useSelector(state => state.currentReducer.search);
 
@@ -56,9 +55,13 @@ export default function CurrentContract(props) {
 
     }, []);
 
+    function handleRefreshTable() {
+        dtInstance.current.ajax.reload(null, false);
+    }
+
     return (
         <div>
-            <FormCurrent />
+            <CurrentForm refreshTable={handleRefreshTable} />
             <ActivityLogs />
             <DataTable
                 id="dtCurrentContract"
@@ -73,7 +76,7 @@ export default function CurrentContract(props) {
                     d.status = state_current.status;
                 }}
                 serverSide={true}
-                onRef={ref => (dtInstance = ref)}
+                onRef={ref => (dtInstance.current = ref)}
                 dom="Blrtip"
                 headers={[
                     "#",
@@ -85,7 +88,7 @@ export default function CurrentContract(props) {
                     "Updated at",
                     ""
                 ]}
-                headerSearch={<HeaderSearch span="8" />}
+                headerSearch={<CurrentSearch span="8" />}
                 columns={[
                     {
                         data: null,
@@ -125,11 +128,9 @@ export default function CurrentContract(props) {
                             let status = "";
                             if (notify === "ACTIVE") {
                                 badge = "green";
-                                // status = `<small>${data.status}</small>`;
                             }
                             else if (notify === "NOTIFYING") {
                                 badge = "orange";
-                                // status = `<small>${data.status}</small>`;
                             } else {
                                 badge = "red";
                             }
@@ -171,7 +172,7 @@ export default function CurrentContract(props) {
                         text: '<i class="fa fa-refresh" aria-hidden="true"></i>',
                         titleAttr: "Refresh",
                         action: function () {
-                            dtInstance.ajax.reload(null, false)
+                            dtInstance.current.ajax.reload(null, false)
                         }
                     },
                     {
@@ -185,14 +186,14 @@ export default function CurrentContract(props) {
                         text: '<i class="fa fa-search" aria-hidden="true"></i> Open Searchs',
                         className: "",
                         action: function (e, dt, node, config) {
-                            if (toggleSearch.current) {
+                            if (toggleSearch) {
                                 node[0].innerText = "Open Search";
-                                toggleSearch.current = false;
-                                document.querySelector('.search-transition-height').classList.remove('transition-height');
+                                toggleSearch = false;
+                                document.querySelector('.search').classList.remove('search-transition');
                             } else {
                                 node[0].innerText = "Close Search";
-                                toggleSearch.current = true;
-                                document.querySelector('.search-transition-height').classList.add('transition-height');
+                                toggleSearch = true;
+                                document.querySelector('.search').classList.add('search-transition');
                             }
 
                         }

@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Select, DatePicker, Input, Upload, Icon, Form, notification, Spin, Row, Col } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import _debounce from 'lodash.debounce';
-import { fetchComp, fetchCompById } from './../../actions/drpAction';
+import { fetchComp, fetchCompById } from '../../actions/drpAction';
 import { isEmpty, momentObjToString, isEmptyStr } from '../../helpers/utils';
 import { API_URL } from '../../helpers/constant';
 import { SelectCategory } from '../../helpers/dropdown';
 import CurrentServices from '../../services/currentServices.js';
 import File from '../../helpers/fileUpload';
-import './style/form.less';
+import './current-style.less';
 import moment from 'moment';
 
 const { Option } = Select;
 
-const submitData = (stateForm, data, reset, state, setFieldsValue) => {
+const submitData = (stateForm, data, reset, state, setFieldsValue, props) => {
+    // console.log(props.dtInstance.current.ajax.reload(false,null));
     const { comp, category, valid_from, valid_to, days_to_reminds, notes, attachment } = data;
     const { id, actionForm } = stateForm;
     // const user_id = jwt.get('user_id');
@@ -29,6 +30,7 @@ const submitData = (stateForm, data, reset, state, setFieldsValue) => {
             cbSuccess: (res) => {
                 if (res.status === "success") {
                     Modal.success({ content: 'Contract Has Been Successfuly Added' });
+                    props.refreshTable();
                 }
                 if (res.attachment === "invalid") {
                     notification.error({ message: 'Error', description: "Something went wrong in your Attachment. Please check!" });
@@ -60,6 +62,7 @@ const submitData = (stateForm, data, reset, state, setFieldsValue) => {
                     if (res.attachment === "ok" && res.hasOwnProperty('attachment_files')) {
                         setFieldsValue({ attachment: res.attachment_files });
                     }
+                    props.refreshTable();
                 }
                 if (res.attachment === "invalid") {
                     notification.error({ message: 'Error', description: "Something went wrong in your Attachment. Please check!" });
@@ -84,6 +87,7 @@ const submitData = (stateForm, data, reset, state, setFieldsValue) => {
             cbSuccess: (res) => {
                 if (res.status === "success") {
                     Modal.success({ content: 'Contract Has Been Successfuly Renew' });
+                    props.refreshTable();
                 }
                 if (res.attachment === "invalid") {
                     notification.error({ message: 'Error', description: "Something went wrong in your Attachment. Please check!" });
@@ -142,7 +146,7 @@ function FormCurrent(props) {
         e.preventDefault();
         props.form.validateFields((err, val) => {
             if (!err) {
-                submitData(state_form, val, (!isEmpty(state_form.id) ? setStateAttach : resetFields), stateAttach, setFieldsValue);
+                submitData(state_form, val, (!isEmpty(state_form.id) ? setStateAttach : resetFields), stateAttach, setFieldsValue, props);
             }
         });
     }
@@ -322,13 +326,6 @@ function FormCurrent(props) {
                         </div>
                     </div>
                     <Row justify="end">
-                        {/* <Col span={12}>
-                            {
-                                state_form.actionForm == 'edit' ?
-                                    <button className="btn btn-sm btn-warning">CANCEL CONTRACT</button>
-                                    : null
-                            }
-                        </Col> */}
                         <Col offset={12} span={5} className="text-right">
                             <button className="btn btn-sm btn-danger" type="button" onClick={() => dispatch({ type: 'SHOW_FORM' })}>CLOSE</button>
                         </Col>

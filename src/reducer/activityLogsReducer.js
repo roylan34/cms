@@ -1,4 +1,4 @@
-import { SHOW_ACTIVITY_LOGS, GET_ROW_ID } from '../actions/activityLogsAction';
+import { SHOW_ACTIVITY_LOGS } from '../actions/activityLogsAction';
 
 
 const initial_state = {
@@ -17,11 +17,6 @@ export default function activityLogs(state = initial_state, action) {
                 selected_row_id: action.id
             }
             break;
-        case GET_ROW_ID:
-            return {
-                ...state,
-                selected_row_id: action.id
-            }
         default:
             return state;
             break;

@@ -1,16 +1,36 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import DataTable from '../../helpers/table';
+import ActivityLogs from '../ActivityLogs';
 
 export default function CurrentContract(props) {
 
     let dtInstance = null;
+    const dispatch = useDispatch();
 
     useEffect(() => {
-    });
+        //Attached and delegate event to tbody
+        const tbl = document.querySelectorAll("table#dtArchiveContract tbody");
+        tbl[0].addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = e.target;
+            const _class = target.classList;
+            const childElem = target.parentNode;
+            let id_attr = target.getAttribute('data-id');
+
+            if (_class.contains('viewLogs') || childElem.classList.value == 'viewLogs') {
+                e.stopPropagation();
+                id_attr = id_attr || childElem.getAttribute('data-id'); //If the elem is a sibling from its target node will lift up to its parent node.
+                dispatch({ type: 'SHOW_ACTIVITY_LOGS', id: id_attr });
+            }
+        });
+
+    }, []);
 
 
     return (
         <div>
+            <ActivityLogs />
             <DataTable
                 id="dtArchiveContract"
                 url="get_archive.php"
@@ -27,7 +47,8 @@ export default function CurrentContract(props) {
                     "Valid from",
                     "Valid to",
                     "Status",
-                    "Created at"
+                    "Created at",
+                    ""
                 ]}
                 // headerSearch={<HeaderSearch />}
                 serverSide={true}
@@ -80,6 +101,12 @@ export default function CurrentContract(props) {
                         data: null,
                         render: function (data) {
                             return data.created_at;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data) {
+                            return `<a href="#" title="Activity logs" data-id=${data.id} class="viewLogs"><i class="fa fa-history fa-lg" aria-hidden="true"></i></a>`;
                         }
                     },
 

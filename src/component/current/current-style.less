@@ -1,0 +1,28 @@
+.current-validity{
+    display: flex;
+    flex-wrap: wrap;
+    > div{
+        width:50%;
+
+        
+    }
+
+}
+
+.search{
+    margin: 0;
+    visibility: hidden;
+    transition: margin .50s ease-in-out;
+    -moz-transition: margin .50s ease-in-out;
+    -webkit-transition: margin .50s ease-in-out;
+    opacity: 0;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    height: 0;
+}
+.search-transition{
+    visibility: visible;
+    opacity: 1;
+    margin: 25px 0 !important;
+    height: auto;
+}
