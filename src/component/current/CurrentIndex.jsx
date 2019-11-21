@@ -160,7 +160,7 @@ export default function CurrentContract(props) {
                                 action_elem += ` <li><a href="#" class="btnRenewContract" data-id=${data.id}><i class="fa fa-repeat" aria-hidden="true"></i>RENEW</a></li>`
                                     + `<li><a href="#" class="btnCloseContract" data-id=${data.id}><i class="fa fa-times-circle" aria-hidden="true"></i>CLOSE CONTRACT</a></li>`;
                             }
-                            action_elem += `<li><a href="#" class="viewLogs" data-id=${data.id}>ACTIVITY LOGS</a></li></ul></div>`;
+                            action_elem += `<li><a href="#" class="viewLogs" data-id=${data.id}><i class="fa fa-history" aria-hidden="true"></i> ACTIVITY LOGS</a></li></ul></div>`;
                             return action_elem;
                         }
                     }
