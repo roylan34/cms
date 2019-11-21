@@ -9,7 +9,7 @@ const initial_state = {
     formTitle: '',
     actionForm: '',
     id: '',
-    search: {}
+    search: {},
 };
 
 export default function currentReducer(state = initial_state, action) {

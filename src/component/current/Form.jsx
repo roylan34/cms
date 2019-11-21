@@ -204,10 +204,7 @@ function FormCurrent(props) {
             resetState();
             resetFields();
         };
-    }, [state_form.isShowForm,
-    state_form.formTitle,
-    state_form.actionForm,
-    state_form.id]);
+    }, [state_form.id]);
 
 
     return (

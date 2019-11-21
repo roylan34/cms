@@ -30,6 +30,7 @@ export default function CurrentContract(props) {
                     "Created at"
                 ]}
                 // headerSearch={<HeaderSearch />}
+                serverSide={true}
                 columns={[
                     {
                         data: null,

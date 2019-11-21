@@ -24,5 +24,10 @@ protected $conn = null;
         $res = $this->conn->getFields();
         return $res;
     }
+    public function getLogs($id){
+        $this->conn->selectQuery("*","{$this->table} WHERE id_contract={$id}");
+        $res = $this->conn->getFields();
+        return $res['aaData'];
+    }
 }
 ?>

@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import DataTable from '../../helpers/table';
 import HeaderSearch from './CurrentSearch';
 import FormCurrent from './Form';
+import ActivityLogs from './../ActivityLogs';
 import CurrentServices from '../../services/currentServices.js';
 import { momentObjToString } from '../../helpers/utils';
+import { instanceOf } from 'prop-types';
 
 export default function CurrentContract(props) {
 
@@ -22,36 +24,42 @@ export default function CurrentContract(props) {
             const target = e.target;
             const _class = target.classList;
             const id_attr = target.getAttribute('data-id');
-            if (_class.contains('btnEditContract')) {
+
+            if (target instanceof HTMLAnchorElement) {
                 e.stopPropagation();
+            }
+
+            if (_class.contains('btnEditContract')) {
                 dispatch({ type: 'SHOW_FORM', actionForm: 'edit', formTitle: 'Edit Contracts Details', id: id_attr })
             }
             else if (_class.contains('btnRenewContract')) {
-                e.stopPropagation();
                 dispatch({ type: 'SHOW_FORM', actionForm: 'renew', formTitle: 'Renew Contracts Details', id: id_attr })
             }
             else if (_class.contains('btnCancelContract')) {
                 Modal.confirm({
                     title: 'Confirmation',
-                    content: 'Are you sure you want to CANCEL CONTRACT?',
+                    content: (<div>Are you sure you want to <strong>CANCEL CONTRACT?</strong> </div>),
                     onOk() { CurrentServices.updateStatus(id_attr, 'CANCEL') },
                 });
             }
             else if (_class.contains('btnCloseContract')) {
                 Modal.confirm({
                     title: 'Confirmation',
-                    content: 'Are you sure you want to CLOSE CONTRACT?',
+                    content: (<div>Are you sure you want to <strong>CLOSE CONTRACT?</strong> </div>),
                     onOk() { CurrentServices.updateStatus(id_attr, 'CLOSED') },
                 });
             }
+            else if (_class.contains('viewLogs')) {
+                dispatch({ type: 'SHOW_ACTIVITY_LOGS', id: id_attr });
+            }
         });
 
-    });
-
+    }, []);
 
     return (
         <div>
             <FormCurrent />
+            <ActivityLogs />
             <DataTable
                 id="dtCurrentContract"
                 url="get_current.php"
@@ -64,6 +72,7 @@ export default function CurrentContract(props) {
                     d.valid_to = momentObjToString(state_current.valid_to);
                     d.status = state_current.status;
                 }}
+                serverSide={true}
                 onRef={ref => (dtInstance = ref)}
                 dom="Blrtip"
                 headers={[

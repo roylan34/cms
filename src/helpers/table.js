@@ -53,7 +53,7 @@ export default function Table(props) {
                 "loadingRecords": "Please wait - loading..."
             },
             "bDestroy": true,
-            "serverSide": true,
+            "serverSide": props.serverSide,
             "processing": true,
             "stateSave": true,                                          //save the pagination #, ordering, show records # and etc
             "ordering": false,
@@ -122,6 +122,7 @@ Table.propTypes = {
     id: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     dom: PropTypes.string,
+    serverSide: PropTypes.bool,
     buttons: PropTypes.arrayOf(PropTypes.object),
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     columnDefs: PropTypes.arrayOf(PropTypes.object),
@@ -134,7 +135,9 @@ Table.propTypes = {
 
 //Default Props
 Table.defaultProps = {
-    columnDefs: []
+    columnDefs: [],
+    serverSide: false,
+    onRef: () => { }
 }
 
 
