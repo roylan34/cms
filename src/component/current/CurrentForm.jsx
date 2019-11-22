@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Select, DatePicker, Input, Upload, Icon, Form, notification, Spin, Row, Col } from 'antd';
+import { Modal, Select, DatePicker, Input, Upload, Icon, Form, notification, Spin, Button, Row, Col } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import _debounce from 'lodash.debounce';
 import { fetchComp, fetchCompById } from '../../actions/drpAction';
@@ -324,12 +324,12 @@ function FormCurrent(props) {
                             </Form.Item>
                         </div>
                     </div>
-                    <Row justify="end">
-                        <Col offset={12} span={5} className="text-right">
-                            <button className="btn btn-sm btn-danger" type="button" onClick={() => dispatch({ type: 'SHOW_FORM' })}>CLOSE</button>
+                    <Row type="flex" gutter={[4, 0]} >
+                        <Col md={{ span: 6, offset: 12 }} xs={12}>
+                            <Button style={{ width: '100%' }} onClick={() => dispatch({ type: 'SHOW_FORM' })}>CLOSE</Button>
                         </Col>
-                        <Col span={5} className="text-right">
-                            <button className="btn btn-sm btn-primary" type="submit">SAVE</button>
+                        <Col md={6} xs={12}>
+                            <Button type="primary" style={{ width: '100%' }} htmlType="submit">SAVE</Button>
                         </Col>
                     </Row>
                 </form>
