@@ -117,7 +117,6 @@ function FormCurrent(props) {
     }
     function onSearchCompany(input) {
         dispatch(fetchComp(input));
-        console.log('onSearchCompany', state_drp.comp.isFetching);
     }
     function getData(stateForm) {
         //fetch data
@@ -200,8 +199,8 @@ function FormCurrent(props) {
         }
     };
 
+    console.log('render formsss');
     useEffect(() => {
-        console.log('render2');
         getData(state_form);
 
         return () => {

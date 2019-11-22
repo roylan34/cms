@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import DataTable from '../../helpers/table';
+import AccountForm from './AccountForm';
 
 
-export default function Account(props) {
+function Account(props) {
 
     let dtInstance = null;
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export default function Account(props) {
             if (_class.contains('viewAccount') || childElem.classList.value == 'viewAccount') {
                 e.stopPropagation();
                 id_attr = id_attr || childElem.getAttribute('data-id'); //If the elem is a sibling from its target node will lift up to its parent node.
-                dispatch({ type: 'SHOW_ACTIVITY_LOGS', id: id_attr });
+                dispatch({ type: 'SHOW_FORM_ACCOUNT', id: id_attr });
             }
         });
 
@@ -30,6 +31,7 @@ export default function Account(props) {
 
     return (
         <div>
+            <AccountForm />
             <DataTable
                 id="dtAccounts"
                 url="get_accounts.php"
@@ -38,7 +40,7 @@ export default function Account(props) {
                     d.action = "all";
                 }}
                 onRef={ref => (dtInstance = ref)}
-                dom="fBlrtip"
+                dom="Bflrtip"
                 headers={[
                     "#",
                     "Username",
@@ -104,7 +106,7 @@ export default function Account(props) {
                     {
                         data: null,
                         render: function (data) {
-                            return `<button href="#" data-id=${data.id} class="btn btn-flat btn-sm btn-success viewAccount"><i class="fa fa-pencil-square" aria-hidden="true"></i> EDIT</button>`;
+                            return `<a href="#" data-id=${data.id} class="btn btn-flat btn-sm btn-success viewAccount"><i class="fa fa-pencil-square" aria-hidden="true"></i> EDIT</a>`;
                         }
                     },
 
@@ -117,10 +119,18 @@ export default function Account(props) {
                         action: function () {
                             dtInstance.ajax.reload(null, false)
                         }
-                    }
+                    },
+                    {
+                        text: '+ Add Account',
+                        action: function () {
+                            dispatch({ type: "SHOW_FORM_ACCOUNT", actionForm: 'add', formTitle: 'Add Account' })
+                        }
+                    },
                 ]}
             >
             </DataTable>
         </div>
     );
 }
+
+export default Account;

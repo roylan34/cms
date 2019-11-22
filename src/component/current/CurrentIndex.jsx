@@ -13,8 +13,9 @@ export default function CurrentContract(props) {
     let dtInstance = useRef();
     let toggleSearch = null;
     const dispatch = useDispatch();
-    const state_current = useSelector(state => state.currentReducer.search);
+    const state_search = useSelector(state => state.searchReducer.search);
 
+    console.log('render index');
     useEffect(() => {
         //Attached and delegate event to tbody
         const tbl = document.querySelectorAll("table#dtCurrentContract tbody");
@@ -69,11 +70,11 @@ export default function CurrentContract(props) {
                 param={d => {
                     delete d.columns; //Remove built-in paramaters.
                     d.action = "all";
-                    d.comp = state_current.comp;
-                    d.category = state_current.category;
-                    d.valid_from = momentObjToString(state_current.valid_from);
-                    d.valid_to = momentObjToString(state_current.valid_to);
-                    d.status = state_current.status;
+                    d.comp = state_search.comp;
+                    d.category = state_search.category;
+                    d.valid_from = momentObjToString(state_search.valid_from);
+                    d.valid_to = momentObjToString(state_search.valid_to);
+                    d.status = state_search.status;
                 }}
                 serverSide={true}
                 onRef={ref => (dtInstance.current = ref)}

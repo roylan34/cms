@@ -1,16 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DataTable from '../helpers/table';
 import { Modal } from 'antd';
 
-export default function ActivityLogs() {
+function ActivityLogs() {
 
     const state_logs = useSelector(state => state.activityLogsReducer);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        console.log('rerender logs');
-    }, [state_logs.selected_row_id]);
 
     return (
         <Modal
@@ -69,6 +65,6 @@ export default function ActivityLogs() {
 
         </Modal>
     )
-
-
 }
+
+export default React.memo(ActivityLogs);

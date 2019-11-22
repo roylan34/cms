@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { Form, Input, DatePicker, Select, Row, Col } from "antd";
 import { SelectCategory } from '../../helpers/dropdown';
@@ -13,19 +13,17 @@ function CurrentHeaderSearch(props) {
         e.preventDefault();
         validateFields((err, val) => {
             if (!err && Object.values(val).some(val => val !== undefined)) { //Trigger search only if least one of them has value.
-                dispatch({ type: 'CURRENT_SEARCH', search: val });
+                dispatch({ type: 'SEARCH_TABLE', search: val });
             }
         });
     }
 
     function handleClear() {
-        dispatch({ type: 'CURRENT_SEARCH', search: {} });
+        dispatch({ type: 'SEARCH_TABLE', search: {} });
         resetFields();
     }
 
-    useEffect(() => {
-        console.log('render search');
-    })
+    console.log('render search');
 
     return (
         <React.Fragment>
@@ -80,4 +78,4 @@ function CurrentHeaderSearch(props) {
 }
 
 const WrappedCurrentSearch = Form.create()(CurrentHeaderSearch);
-export default WrappedCurrentSearch;
+export default React.memo(WrappedCurrentSearch);
