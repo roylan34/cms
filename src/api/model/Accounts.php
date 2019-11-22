@@ -21,6 +21,25 @@ protected $conn = null;
         $res = $this->conn->getFields();
         return $res;   
     }
+
+    public function getAccountById($id){
+        $this->conn->selectQuery("id, username, firstname, lastname, status, user_role, email","{$this->table}");
+        $res = $this->conn->getFields();
+        return $res;   
+    }
+
+    public function add($data){
+        $this->conn->insertQuery($this->table,'username, password, firstname, lastname, status, user_role, email',
+                            '"'.$data['username'].'",
+                            "'.$data['password'].'",
+                            "'.$data['firstname'].'",
+                            "'.$data['lastname'].'",
+                            "'.$data['status'].'",
+                            "'.$data['role'].'",
+                            "'.$data['email'].'"');
+        $res = $this->conn->getFields();
+        return $res;
+    }
     
 }
 ?>

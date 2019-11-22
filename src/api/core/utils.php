@@ -117,6 +117,11 @@ Class Utils{
 			return false;
 		return strtoupper($str);
 	}
+	static public function lowerCase($str){
+		if (!is_string($str))
+			return false;
+		return strtolower($str);
+	}
 
 	static public function getSysDate(){
 		date_default_timezone_set('Asia/Manila');

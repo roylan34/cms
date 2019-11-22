@@ -19,19 +19,21 @@ function Account(props) {
             const childElem = target.parentNode;
             let id_attr = target.getAttribute('data-id');
 
-            if (_class.contains('viewAccount') || childElem.classList.value == 'viewAccount') {
+            if (_class.contains('viewAccount') || childElem.classList.contains('viewAccount')) {
                 e.stopPropagation();
                 id_attr = id_attr || childElem.getAttribute('data-id'); //If the elem is a sibling from its target node will lift up to its parent node.
-                dispatch({ type: 'SHOW_FORM_ACCOUNT', id: id_attr });
+                dispatch({ type: 'SHOW_FORM_ACCOUNT', id: id_attr, actionForm: 'edit', formTitle: 'Edit Account' });
             }
         });
 
     }, []);
 
-
+    function handleRefreshTable() {
+        dtInstance.ajax.reload(null, false);
+    }
     return (
         <div>
-            <AccountForm />
+            <AccountForm refreshTable={handleRefreshTable} />
             <DataTable
                 id="dtAccounts"
                 url="get_accounts.php"
