@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Select, Button, Input, Icon, Form, notification, Radio, Row, Col } from 'antd';
 import { API_URL } from '../../helpers/constant';
+import { isEmpty } from './../../helpers/utils';
+import AccountServices from '../../services/accountServices';
 import $ from 'jquery';
 
 function AccountForm(props) {
-    console.log('render account form');
-
     const { getFieldDecorator, setFieldsValue, resetFields } = props.form;
     const state_acc = useSelector(state => state.accountReducer);
     const dispatch = useDispatch();
-
+    const [showInputPass, setShowInputPass] = useState(false);
 
     function submitData(data) {
 
@@ -60,8 +60,24 @@ function AccountForm(props) {
             });
         }
     }
-    function getData() {
-
+    function getData(stateForm) {
+        //Fetch data
+        if (!isEmpty(stateForm.id)) {
+            let res = AccountServices.getAccountById(stateForm);
+            if (res.status === 'success') {
+                //Set data to each corresponding field.
+                let { username, password, firstname, lastname, status, user_role, email } = res.aaData[0];
+                setFieldsValue({
+                    username,
+                    password,
+                    firstname,
+                    lastname,
+                    status,
+                    role: user_role,
+                    email
+                });
+            }
+        }
     }
     function onSubmit(e) {
         e.preventDefault();
@@ -71,6 +87,21 @@ function AccountForm(props) {
             }
         });
     }
+    function toggleInputPass() {
+        setShowInputPass((prev) =>
+            !prev
+        );
+    }
+    console.log('render account form');
+    useEffect(() => {
+        console.log('rerender effect');
+        getData(state_acc);
+
+        return () => {
+            resetFields();
+            setShowInputPass(false);
+        }
+    }, [state_acc.id]);
     return (
         <Modal
             title={state_acc.formTitle}
@@ -94,15 +125,30 @@ function AccountForm(props) {
                 </div>
                 <div className="form-group">
                     <label className="control-label" htmlFor="password">Password:</label>
-                    <Form.Item>
-                        {
-                            getFieldDecorator('password', {
-                                rules: [{ required: true, message: 'this field is required' }],
-                            })(<Input.Password
-                                name="password"
-                                placeholder="Password" />
-                            )}
-                    </Form.Item>
+                    {
+                        state_acc.actionForm === 'add' || showInputPass ?
+                            <Row type="flex" align="middle">
+                                <Col span={state_acc.actionForm == 'add' ? 24 : 21}>
+                                    <Form.Item>
+                                        {
+                                            getFieldDecorator('password', {
+                                                rules: [{ required: true, message: 'this field is required' }],
+                                            })(<Input.Password
+                                                name="password"
+                                                placeholder="Password" />
+                                            )}
+                                    </Form.Item>
+                                </Col>
+                                {
+                                    showInputPass ?
+                                        <Col span={3}>
+                                            <Button title="cancel" style={{ width: '100%' }} type="danger" size="small" onClick={toggleInputPass}>X</Button>
+                                        </Col>
+                                        : null
+                                }
+                            </Row>
+                            : <div ><a title="Edit Password" onClick={toggleInputPass}>•••••• change</a></div>
+                    }
                 </div>
                 <Row type="flex" gutter={[10, 0]} className="form-group" >
                     <Col span={12}>

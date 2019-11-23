@@ -23,7 +23,7 @@ protected $conn = null;
     }
 
     public function getAccountById($id){
-        $this->conn->selectQuery("id, username, firstname, lastname, status, user_role, email","{$this->table}");
+        $this->conn->selectQuery("id, username, firstname, lastname, status, user_role, email","{$this->table} WHERE id={$id} LIMIT 1");
         $res = $this->conn->getFields();
         return $res;   
     }
@@ -39,6 +39,31 @@ protected $conn = null;
                             "'.$data['email'].'"');
         $res = $this->conn->getFields();
         return $res;
+    }
+    public function update($data){
+        if($data['id']){
+            if(array_key_exists('password', $data)){
+                $this->conn->updateQuery($this->table, 
+                                        "username='".$data['username']."',
+                                        firstname='".$data['firstname']."',
+                                        lastname ='".$data['lastname']."',
+                                        password ='".$data['password']."',
+                                        status   ='".$data['status']."',
+                                        user_role='".$data['role']."',
+                                        email    ='".$data['email']."'"
+                                        , "id='".$data['id']."'");
+            }else{
+                $this->conn->updateQuery($this->table, 
+                                        "username='".$data['username']."',
+                                        firstname='".$data['firstname']."',
+                                        lastname ='".$data['lastname']."',
+                                        status   ='".$data['status']."',
+                                        user_role='".$data['role']."',
+                                        email    ='".$data['email']."'"
+                                        , "id='".$data['id']."'");
+            }
+            return $this->conn->getFields();
+        }
     }
     
 }

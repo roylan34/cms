@@ -66,6 +66,9 @@ Class Utils{
 
 	static public function encrypt($data)
 	{
+        if(self::isEmpty($data)){
+            return false;
+        }
 	    $key = '@gTSqK82GADBp.1';
 	    $method = 'AES-256-ECB';
 	    $ivSize = openssl_cipher_iv_length($method);
@@ -81,6 +84,9 @@ Class Utils{
 
 	static public function decrypt($data)
 	{
+        if(self::isEmpty($data)){
+            return false;
+        }
 	    $key = '@gTSqK82GADBp.1';
 	    $method = 'AES-256-ECB';
 	    $data = base64_decode($data);
