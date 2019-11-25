@@ -3,11 +3,12 @@ import { API_URL } from './../helpers/constant';
 
 class DrpDown {
 
-    static getListCategories() {
+    static getActiveCategories() {
         let data = null;
         $.ajax({
             type: 'GET',
-            url: API_URL + '/get_categories.php',
+            url: API_URL + '/get_category.php',
+            data: { action: 'all-active' },
             cache: false,
             async: false,
         }).done(res => { data = res; });

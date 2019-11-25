@@ -1,7 +1,7 @@
 import React from 'react';
 import avatar from '../../assets/img/avatar.png';
 import { Icon } from 'antd';
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const SideBar = (props) => {
 
@@ -33,7 +33,7 @@ const SideBar = (props) => {
                     <li id='contract-archive'><NavLink to="/archive"><i className="fa fa-archive"></i>Archive</NavLink></li>
                     <li className="header">MISC</li>
                     <li id='accounts'><NavLink to="/account"><i className="fa fa-address-book"></i>Accounts</NavLink></li>
-                    <li id="settings"><a href="#"><i className="fa fa-cogs"></i><span>Settings</span></a></li>
+                    <li id='settings'><NavLink to="/settings"><i className="fa fa-cogs"></i>Settings</NavLink></li>
                 </ul>
                 {/* /.sidebar-menu */}
             </section>

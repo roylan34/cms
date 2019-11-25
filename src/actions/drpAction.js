@@ -2,20 +2,11 @@ import Drpdown from './../services/drpdown.js';
 import { isEmpty } from './../helpers/utils';
 
 //Action type
-export const FETCH_LIST_CATEGORIES = 'FETCH_LIST_CATEGORIES'
 export const FETCH_LIST_COMP = 'FETCH_LIST_COMP'
 export const FETCH_COMP_NAME = 'FETCH_COMP_NAME'
 export const HALT_FETCHING_COMP = 'HALT_FETCHING_COMP'
 
 
-//Action creator
-export function fetchCategories() {
-    const data = Drpdown.getListCategories();
-    return {
-        type: FETCH_LIST_CATEGORIES,
-        payload: data.aaData
-    }
-}
 export function fetchComp(comp_name) {
     let data = null;
     let isFetching = null;

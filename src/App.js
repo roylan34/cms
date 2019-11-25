@@ -10,6 +10,7 @@ import NotFound from './component/NotFound';
 import CurrentIndex from './component/current/CurrentIndex';
 import ArchiveIndex from './component/archive/ArchiveIndex';
 import AccountIndex from './component/account/AccountIndex';
+import CategoryIndex from './component/settings/CategoryIndex';
 
 const tmplPMA = () => <div>PM Template</div>;
 
@@ -43,6 +44,7 @@ function App() {
                     <DashboardRoute path="/current" component={CurrentIndex} headTitle="Current" />
                     <DashboardRoute path="/archive" component={ArchiveIndex} headTitle="Archive" />
                     <DashboardRoute path="/account" component={AccountIndex} headTitle="Account" />
+                    <DashboardRoute path="/settings" component={CategoryIndex} headTitle="Settings" />
                     <Route path="*" component={NotFound} />
                 </Switch>
             </BrowserRouter>

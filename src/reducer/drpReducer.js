@@ -1,5 +1,4 @@
 import {
-    FETCH_LIST_CATEGORIES,
     FETCH_LIST_COMP,
     FETCH_COMP_NAME,
     HALT_FETCHING_COMP
@@ -7,18 +6,11 @@ import {
 
 
 const initial_state = {
-    categories: [],
     comp: { isFetching: false, data: [] }
 };
 
 export default function drpReducer(state = initial_state, action) {
     switch (action.type) {
-        case FETCH_LIST_CATEGORIES:
-            return {
-                ...state,
-                categories: action.payload
-            }
-            break;
         case FETCH_LIST_COMP:
             return {
                 ...state,

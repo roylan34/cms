@@ -1,0 +1,1 @@
+export const SHOW_FORM_CATEGORY = 'SHOW_FORM_CATEGORY';
