@@ -1,28 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Button, Icon } from 'antd';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { Input, Button, Icon, Form, Notification, Modal } from 'antd';
 import $ from 'jquery';
 import logo from '../assets/img/delsanlogo.png';
 import banner from '../assets/img/cms-banner.jpg';
 import dbiclogo from '../assets/img/dbic-logo.jpg';
-import { BASE_URL } from '../helpers/constant';
-import { withRouter } from 'react-router-dom';
-import Cookies from '../helpers/cookies.js';
-import auth from '../helpers/auth';
+import { API_URL } from '../helpers/constant';
+import Cookies from './../helpers/cookies';
 import './login.css';
 
-export default function Login() {
+function Login(props) {
 
-    function handleChange(e) {
-        setCred({
-            [e.target.name]: e.target.value
+    const { getFieldDecorator } = props.form;
+    const history = useHistory();
+
+    function submitData(data) {
+        $.ajax({
+            url: `${API_URL}/login.php`,
+            data: { action: 'login', username: data.username, password: data.password },
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            method: "POST",
+            success: (res) => {
+                if (res.status === "success") {
+                    //Redirect to current page.
+                    Cookies.set('samplebiscuit', 1, 4);
+                    history.push('/current');
+                }
+                else if (res.status === "inactive") {
+                    Modal.warning({ title: 'Authentication failed!', content: (<div>Account has been disabled.</div>) });
+                }
+                else if (res.status === "invalid") {
+                    Modal.warning({ title: 'Authentication failed!', content: "Invalid login account. Please try again" });
+                }
+            },
+            error: (xhr, status) => {
+                Modal.error({ title: 'Error', content: "Something went wrong! Can't login." });
+            }
         });
     }
 
-    const [cred, setCred] = useState({ username: '', passsword: '' });
-
-    useEffect(() => {
-        console.log({ ...cred });
-    });
+    function onSubmit(e) {
+        e.preventDefault();
+        props.form.validateFields((err, val) => {
+            if (!err) {
+                submitData(val);
+            }
+        });
+    }
 
     return (
         < div id="wrapper" >
@@ -42,24 +70,33 @@ export default function Login() {
                             </div>
                             <div className="col-md-5">
                                 <h3 className="login-box-msg text-center">Login Page</h3>
-                                <form id="frmLogin">
+                                <form id="frmLogin" onSubmit={onSubmit}>
                                     <div className="form-group">
-                                        <Input placeholder="Username"
-                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                            onChange={handleChange}
-                                            name="username"
-                                        />
+                                        {
+                                            getFieldDecorator('username', {
+                                                rules: [{ required: true }]
+                                            })(<Input placeholder="Username"
+                                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                                name="username"
+                                            />)
+                                        }
+
                                     </div>
                                     <div className="form-group">
-                                        <Input.Password placeholder="Password"
-                                            prefix={<Icon type="key" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                            onChange={handleChange}
-                                            name="password"
-                                        />
+                                        {
+                                            getFieldDecorator('password', {
+                                                rules: [{ required: true }]
+                                            })(<Input.Password placeholder="Password"
+                                                prefix={<Icon type="key" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                                name="password"
+                                                visibilityToggle={false}
+                                            />)
+                                        }
+
                                     </div>
                                     <div className="row">
                                         <div className="col-md-5 col-md-offset-7">
-                                            <Button type="primary" className="col-sm-12 col-xs-12" id="btnLogin">Login</Button>
+                                            <Button type="primary" className="col-sm-12 col-xs-12" htmlType="submit">Login</Button>
                                         </div>{/* /.col */}
                                     </div>
                                 </form>
@@ -85,3 +122,6 @@ export default function Login() {
         </div >
     );
 }
+
+const WrappedLogin = Form.create()(Login);
+export default WrappedLogin;
