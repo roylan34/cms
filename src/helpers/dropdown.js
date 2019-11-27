@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react';
 import { Select } from 'antd';
 import Drpdown from './../services/drpdown.js';
-import { isEmpty, splitStrToArrInt } from './utils';
+
 
 const categories = Drpdown.getActiveCategories();
-const Category = (props, ref) => {
+function Category(props, ref) {
     const opt_cat = categories.aaData.map(opt =>
         <Select.Option key={opt.id} value={opt.id}>{opt.cat_name}</Select.Option>
     )
@@ -20,8 +20,8 @@ const Category = (props, ref) => {
     )
 }
 
-const WrappedCategory = forwardRef(Category);
-export { WrappedCategory as SelectCategory };
+export const SelectCategory = forwardRef(Category);
+
 
 
 
