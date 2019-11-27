@@ -19,7 +19,7 @@ function CurrentHeaderSearch(props) {
     }
 
     function handleClear() {
-        dispatch({ type: 'SEARCH_TABLE', search: {} });
+        dispatch({ type: 'RESET_SEARCH_TABLE' });
         resetFields();
     }
 
@@ -39,7 +39,7 @@ function CurrentHeaderSearch(props) {
                         </Col>
                         <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('category')(<SelectCategory placeholder="Select category" />)}
+                                {getFieldDecorator('category', [{ rules: { initialValue: '' } }])(<SelectCategory placeholder="Select category" />)}
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={12} md={4}>

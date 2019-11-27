@@ -54,7 +54,13 @@ export default function CurrentContract(props) {
             }
         });
 
+        return willUnmountComponent;
+
     }, []);
+
+    function willUnmountComponent() {
+        dispatch({ type: 'RESET_SEARCH_TABLE' });
+    }
 
     function handleRefreshTable() {
         dtInstance.current.ajax.reload(null, false);

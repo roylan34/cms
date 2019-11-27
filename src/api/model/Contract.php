@@ -72,7 +72,7 @@ protected $conn = null;
         $limit  = "";
 
             if($data['comp'])       { $search .= "AND comp.company_name LIKE '%".$data['comp']."%'"; }
-            if($data['category'])   { $search .= "AND cnt.category LIKE '%".$data['category']."%'"; }
+            if($data['category'])   { $search .= "AND cnt.category ='".$data['category']."'"; }
             if($data['valid_from']) { $search .= "AND cnt.valid_from LIKE '%".$data['valid_from']."%'"; }
             if($data['valid_to'])   { $search .= "AND cnt.valid_to LIKE '%".$data['valid_to']."%'"; }
             if($data['status'])     { 
@@ -139,7 +139,7 @@ protected $conn = null;
 							);
 			} 
 			else{ 
-				$json_data = array("draw" =>  0,"recordsTotal" => 0, "recordsFiltered" => 0, "records" => array(), "status" => "");
+				$json_data = array("draw" =>  0,"recordsTotal" => 0, "recordsFiltered" => 0, "aaData" => array(), "status" => "");
 			}
 			return $json_data;  // send data as json format.
     }
@@ -186,7 +186,7 @@ protected $conn = null;
 							);
 			} 
 			else{ 
-				$json_data = array("draw" =>  0,"recordsTotal" => 0, "recordsFiltered" => 0, "records" => array(), "status" => "");
+				$json_data = array("draw" =>  0,"recordsTotal" => 0, "recordsFiltered" => 0, "aaData" => array(), "status" => "");
 			}
 			return $json_data;  // send data as json format.
     }
