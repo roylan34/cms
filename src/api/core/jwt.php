@@ -15,7 +15,6 @@ Class JWT{
 		'alg' => 'HS256'
 	);
 
-
 	 /**
      * Decode a string with URL-safe Base64.
      *

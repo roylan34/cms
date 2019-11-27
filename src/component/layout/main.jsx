@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import SideBar from './sideBar';
 import Footer from './footer';
 import Navigation from './navigation';
@@ -7,6 +8,7 @@ import { isEmpty } from './../../helpers/utils';
 
 export default function Main(props) {
 
+    const dispatch = useDispatch();
     useEffect(() => {
         //Change head title on every user page navigate.
         if (typeof props.headTitle !== "string") {
@@ -16,6 +18,7 @@ export default function Main(props) {
             document.title = "Contract Management System";
         }
         document.title = `CMS - ${props.headTitle}`;
+        dispatch({ type: 'LOGIN_USER_DETAILS' });
     });
 
     function accountDetails() {
@@ -29,7 +32,7 @@ export default function Main(props) {
 
             <div className="wrapper">
                 <div id="include-navigation">
-                    <Navigation accountDetails={accountDetails} />
+                    <Navigation />
                 </div>
                 {/* Content Wrapper. Contains page content */}
                 <div className="content-wrapper">
@@ -57,7 +60,7 @@ export default function Main(props) {
 
                 <div className="scrollToTop"></div>
                 <div id="include-left-sidebar">
-                    <SideBar fullname={accountDetails.fullname} />
+                    <SideBar />
                 </div>
                 <div id="include-footer">
                     <Footer />

@@ -8,9 +8,10 @@ class Jwt {
     constructor() {
         //Preserve state of cookies token.
         this.c_token = null;
+        this.parse_token = null;
     }
 
-    static get(input) {
+    static get(name) {
         //Get cookies.
         if (!this.c_token) {
             this.c_token = Cookies.get('token');
@@ -18,20 +19,19 @@ class Jwt {
             if (!this.c_token) {
                 return null;
             }
+            const data = this.c_token.split('.');
+            const payload = Base64.decode(data[1]);
+            this.parse_token = JSON.parse(payload);
         }
-
-        var token = this.c_token.split('.');
-        var payload = Base64.decode(token[1]);
-        var parsePayload = JSON.parse(payload);
         //Check token name if exist.
-        if (!parsePayload.hasOwnProperty(input)) {
+        if (!this.parse_token.hasOwnProperty(name)) {
             throw new Error('Invalid token name');
         }
-        return parsePayload[input];
+        return this.parse_token[name];
     }
 
     static serverVerify() {
-        var xhr = $.ajax({
+        const xhr = $.ajax({
             async: false,
             url: `${API_URL}/jwtInvokeVerify.php`,
         });
@@ -45,7 +45,7 @@ class Jwt {
 
     static clear() {
         this.c_token = null;
-        return this.c_token;
+        this.parse_token = null;
     }
 
 }

@@ -44,7 +44,7 @@ const DashboardRoute = ({ component: Component, headTitle: headTitle, ...rest })
         </Route>
     )
 }
-
+//Enable this property to include cookies in request header.
 $.ajaxSetup({
     xhrFields: {
         withCredentials: true

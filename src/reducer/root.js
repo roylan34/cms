@@ -5,6 +5,7 @@ import drpReducer from './drpReducer';
 import activityLogsReducer from './activityLogsReducer';
 import searchReducer from './searchReducer';
 import accountReducer from './accountReducer';
+import userDetailsReducer from './userDetailsReducer';
 
 
 const rootReducer = combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     drpReducer,
     activityLogsReducer,
     searchReducer,
-    accountReducer
+    accountReducer,
+    userDetailsReducer
 });
 
 export default rootReducer;

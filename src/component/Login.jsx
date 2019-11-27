@@ -19,15 +19,10 @@ function Login(props) {
             url: `${API_URL}/login.php`,
             data: { action: 'login', username: data.username, password: data.password },
             dataType: 'json',
-            xhrFields: {
-                withCredentials: true
-            },
-            crossDomain: true,
             method: "POST",
             success: (res) => {
                 if (res.status === "success") {
                     //Redirect to current page.
-                    Cookies.set('samplebiscuit', 1, 4);
                     history.push('/current');
                 }
                 else if (res.status === "inactive") {

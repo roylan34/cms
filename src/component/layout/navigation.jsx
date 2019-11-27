@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import dbiclogo from '../../assets/img/dbic-logo.jpg';
 import avatar from '../../assets/img/avatar.png';
 
-const Navigation = (props) => {
-    const { fullname, userrole } = props.accountDetails();
+const Navigation = () => {
+    const { fullname, email } = useSelector(state => state.userDetailsReducer);
     return (
         <header className="main-header">
             {/* Main Header */}
@@ -41,7 +42,7 @@ const Navigation = (props) => {
 
                                     <p className="info">{/* <small>Member since Nov. 2012</small> */}
                                         {fullname}
-                                        <small>{userrole}</small>
+                                        <small>{email}</small>
                                     </p>
                                 </li>
 
