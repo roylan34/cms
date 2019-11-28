@@ -1,10 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import dbiclogo from '../../assets/img/dbic-logo.jpg';
 import avatar from '../../assets/img/avatar.png';
+import Auth, { _logout } from '../../helpers/auth';
 
-const Navigation = () => {
+function Navigation() {
     const { fullname, email } = useSelector(state => state.userDetailsReducer);
+    const history = useHistory();
+
+    function logout(e) {
+        e.preventDefault();
+        Auth.logout(history);
+    }
     return (
         <header className="main-header">
             {/* Main Header */}
@@ -52,7 +60,7 @@ const Navigation = () => {
                                         <a href="#" id="change-pass" className="btn btn-warning btn-flat" data-toggle="modal" data-target="#modalChangePass">Change password</a>
                                     </div>
                                     <div className="pull-right">
-                                        <a href="#" id="logout" className="btn btn-sm btn-warning btn-flat"><i className="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
+                                        <button id="logout" className="btn btn-sm btn-warning btn-flat" onClick={logout}><i className="fa fa-sign-out" aria-hidden="true"></i> Log out</button>
                                     </div>
                                 </li>
                             </ul>

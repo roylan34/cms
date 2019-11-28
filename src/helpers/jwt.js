@@ -30,19 +30,6 @@ class Jwt {
         return this.parse_token[name];
     }
 
-    static serverVerify() {
-        const xhr = $.ajax({
-            async: false,
-            url: `${API_URL}/jwtInvokeVerify.php`,
-        });
-
-        if (xhr.status == "401") {
-            alert('Access not allowed. \n Please contact the developer to assist you. Thanks!');
-            return false;
-        }
-        return true;
-    }
-
     static clear() {
         this.c_token = null;
         this.parse_token = null;

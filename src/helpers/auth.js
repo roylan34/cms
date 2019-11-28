@@ -1,5 +1,3 @@
-import React from 'react';
-import { Redirect } from "react-router-dom";
 import Cookies from "../helpers/cookies";
 import Jwt from "../helpers/jwt";
 import { isEmpty } from './utils';
@@ -22,9 +20,8 @@ class Auth {
             return url == restProps.location.pathname;
         });
         if (!isEmpty(this.app_token) && !isEmpty(this.sid)) {
-
             const user_role = Jwt.get('user_role');
-            //Not allowed to access the account has role USER.
+            //Not allowed to access the account has role USER.Then itwas
             if (blocked_url.length > 0 && user_role == 'USER') {
                 return false;
             }
@@ -35,9 +32,14 @@ class Auth {
         }
     }
 
-    static logout() {
+    static logout(cbHistory) {
         if (!isEmpty(this.app_token) && !isEmpty(this.sid)) {
-            Cookies.clear();
+            this.app_token = null;
+            this.sid = null;
+            Cookies.clear('token');
+            Cookies.clear('sid');
+            cbHistory.push("/login");
+
             //ajax
             //will clear stored session in the server.
         }
