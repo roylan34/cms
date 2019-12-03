@@ -11,9 +11,9 @@ import { momentObjToString } from '../../helpers/utils';
 export default function CurrentContract(props) {
 
     let dtInstance = useRef();
-    let toggleSearch = null;
+    let state_search = {};
+    let toggleSearch = false;
     const dispatch = useDispatch();
-    const state_search = useSelector(state => state.searchReducer.search);
 
     console.log('render index');
     useEffect(() => {
@@ -66,6 +66,14 @@ export default function CurrentContract(props) {
         dtInstance.current.ajax.reload(null, false);
     }
 
+    function getSearchValue(e) {
+        state_search.comp = e.comp;
+        state_search.category = e.category;
+        state_search.valid_from = momentObjToString(e.valid_from);
+        state_search.valid_to = momentObjToString(e.valid_to);
+        state_search.status = e.status;
+    }
+
     return (
         <div>
             <CurrentForm refreshTable={handleRefreshTable} />
@@ -78,8 +86,8 @@ export default function CurrentContract(props) {
                     d.action = "all";
                     d.comp = state_search.comp;
                     d.category = state_search.category;
-                    d.valid_from = momentObjToString(state_search.valid_from);
-                    d.valid_to = momentObjToString(state_search.valid_to);
+                    d.valid_from = state_search.valid_from;
+                    d.valid_to = state_search.valid_to;
                     d.status = state_search.status;
                 }}
                 serverSide={true}
@@ -95,7 +103,7 @@ export default function CurrentContract(props) {
                     "Updated at",
                     ""
                 ]}
-                headerSearch={<CurrentSearch span="8" />}
+                headerSearch={<CurrentSearch span="8" getSearchValue={getSearchValue} refreshTable={handleRefreshTable} />}
                 columns={[
                     {
                         data: null,
@@ -190,7 +198,7 @@ export default function CurrentContract(props) {
                         }
                     },
                     {
-                        text: '<i class="fa fa-search" aria-hidden="true"></i> Open Searchs',
+                        text: 'Open Search',
                         className: "",
                         action: function (e, dt, node, config) {
                             if (toggleSearch) {

@@ -1,26 +1,58 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { Form, Input, DatePicker, Select, Row, Col } from "antd";
 import { SelectCategory } from '../../helpers/dropdown';
 
 function CurrentHeaderSearch(props) {
 
-    const { getFieldDecorator, resetFields, validateFields } = props.form;
     const { Option } = Select;
-    const dispatch = useDispatch();
+    const initialState = { comp: "", category: "", valid_from: null, valid_to: null, status: "" };
+    const [stateSearch, setStateSearch] = useState(initialState);
 
     function handleSearch(e) {
         e.preventDefault();
-        validateFields((err, val) => {
-            if (!err && Object.values(val).some(val => val !== undefined)) { //Trigger search only if least one of them has value.
-                dispatch({ type: 'SEARCH_TABLE', search: val });
-            }
-        });
+        let hasSearchKey = Object.keys(stateSearch).length;
+        let hasSearchValue = Object.values(stateSearch).some(val => val !== "" || val !== undefined);
+        if (hasSearchKey > 0 && hasSearchValue) {
+            props.getSearchValue(stateSearch);
+            props.refreshTable();
+        }
     }
 
     function handleClear() {
-        dispatch({ type: 'RESET_SEARCH_TABLE' });
-        resetFields();
+        props.getSearchValue(initialState);
+        setStateSearch(initialState);
+        props.refreshTable();
+    }
+    function handleSearchInput(e) {
+        const val = e.target.value;
+        const name = e.target.name;
+        setStateSearch(prevState => ({
+            ...prevState, [name]: val
+        }));
+    }
+    function handleCategory(val, opt) {
+        setStateSearch(prevState => ({
+            ...prevState,
+            category: val || null
+        }));
+    }
+    function handleStatus(val, opt) {
+        setStateSearch(prevState => ({
+            ...prevState,
+            status: val || null
+        }));
+    }
+    function handleValidFrom(momentObj) {
+        setStateSearch(prevState => ({
+            ...prevState,
+            valid_from: momentObj
+        }));
+    }
+    function handleValidTo(momentObj) {
+        setStateSearch(prevState => ({
+            ...prevState,
+            valid_to: momentObj
+        }));
     }
 
     console.log('render search');
@@ -34,33 +66,31 @@ function CurrentHeaderSearch(props) {
                     <Row type="flex" gutter={[8, 8]} align="middle" justify='space-around' className="search">
                         <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('comp')(<Input placeholder="Company" />)}
+                                <Input placeholder="Company" onChange={handleSearchInput} name="comp" value={stateSearch.comp} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('category', [{ rules: { initialValue: '' } }])(<SelectCategory placeholder="Select category" />)}
+                                <SelectCategory placeholder="Select category" onChange={handleCategory} name="category" value={stateSearch.category} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('valid_from')(<DatePicker style={{ width: '100%' }} placeholder="Valid from" />)}
+                                <DatePicker style={{ width: '100%' }} placeholder="Valid from" onChange={handleValidFrom} name="valid_from" value={stateSearch.valid_from} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('valid_to')(<DatePicker style={{ width: '100%' }} placeholder="Valid to" />)}
+                                <DatePicker style={{ width: '100%' }} placeholder="Valid to" onChange={handleValidTo} name="valid_to" value={stateSearch.valid_to} />
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={12} md={4}>
                             <Form.Item>
-                                {getFieldDecorator('status')(
-                                    <Select style={{ width: '100%' }} placeholder="Status">
-                                        <Option value="active">ACTIVE</Option>
-                                        <Option value="notify">NOTIFYING</Option>
-                                        <Option value="expired">EXPIRED</Option>
-                                    </Select>
-                                )}
+                                <Select style={{ width: '100%' }} placeholder="Status" onChange={handleStatus} name="status" value={stateSearch.status}>
+                                    <Option value="active">ACTIVE</Option>
+                                    <Option value="notify">NOTIFYING</Option>
+                                    <Option value="expired">EXPIRED</Option>
+                                </Select>
                             </Form.Item>
                         </Col>
                         <Col>
@@ -77,5 +107,5 @@ function CurrentHeaderSearch(props) {
     );
 }
 
-const WrappedCurrentSearch = Form.create()(CurrentHeaderSearch);
+const WrappedCurrentSearch = CurrentHeaderSearch;
 export default React.memo(WrappedCurrentSearch);
