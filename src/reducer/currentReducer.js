@@ -1,5 +1,6 @@
 import {
-    SHOW_FORM
+    SHOW_FORM,
+    HIDE_CURRENT_FORM
 } from '../actions/currentAction'
 
 
@@ -20,6 +21,12 @@ export default function currentReducer(state = initial_state, action) {
                 formTitle: action.formTitle,
                 actionForm: action.actionForm,
                 id: action.id || ''
+            }
+            break;
+        case HIDE_CURRENT_FORM:
+            return {
+                ...state,
+                isShowForm: false,
             }
             break;
         default:
