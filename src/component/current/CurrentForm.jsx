@@ -134,15 +134,16 @@ function FormCurrent(props) {
 
                 dispatch(fetchCompById(sap_company_id)); //Set default Select.option
                 setStateAttach((prevState) => ({ ...prevState, dir: attachment, dir_ren: ren_attachment }));
-                setFieldsValue({
-                    comp: sap_company_id,
-                    category,
-                    valid_from: moment(valid_from, 'YYYY-MM-DD'),
-                    valid_to: moment(valid_to, 'YYYY-MM-DD'),
-                    days_to_reminds,
-                    notes,
-                    attachment: attachment_files
-                })
+
+                const setValue = { comp: sap_company_id, category };
+                if (stateForm.actionForm === "edit") {
+                    setValue.valid_from = moment(valid_from, 'YYYY-MM-DD');
+                    setValue.valid_to = moment(valid_to, 'YYYY-MM-DD');
+                    setValue.days_to_reminds = days_to_reminds;
+                    setValue.notes = notes;
+                    setValue.attachment = attachment_files;
+                }
+                setFieldsValue(setValue);
             }
         }
     }
