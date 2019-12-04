@@ -1,2 +1,0 @@
-export const SEARCH_TABLE = 'SEARCH_TABLE';
-export const RESET_SEARCH_TABLE = 'RESET_SEARCH_TABLE';
