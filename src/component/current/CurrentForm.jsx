@@ -297,11 +297,10 @@ function FormCurrent(props) {
                                         rules: [{ required: true, message: 'this field is required' }],
                                         initialValue: 1
                                     })(
-                                        <Input />
+                                        <Input placeholder="# of days" />
                                     )
                                 }
                             </Form.Item>
-                            <small>(1 days default if empty)</small>
                         </div>
                         <div className="form-group">
                             <label className="control-label" htmlFor="">Notes</label>
@@ -312,7 +311,7 @@ function FormCurrent(props) {
                             </Form.Item>
                         </div>
                         <div className="form-group">
-                            <label className="control-label" htmlFor="">Attachment</label><small> (PDF only)</small>
+                            <label className="control-label" htmlFor="">Attachment</label><small> (PDF only; max file size 2MB)</small>
                             <Form.Item>
                                 {
                                     getFieldDecorator('attachment', {
