@@ -8,7 +8,7 @@ class Company{
 
 
     public function __construct(){
-        $db_mif = array('db_name'=> 'dbmif', 'db_host' => 'localhost', 'db_user'=> 'root', 'db_pass'=> '');
+        $db_mif = array('db_name'=> 'dbmif', 'db_host' => 'localhost', 'db_user'=> 'root', 'db_pass'=> 'delsan@1991');
         $db = Database::getInstance($db_mif);
         if($db == null){
             throw new Exception("Failed to connect database.");

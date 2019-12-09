@@ -19,7 +19,7 @@ Class Database extends DbErrorHandler{
 
 	protected $dbHost = "localhost";
 	protected $dbUser = "root";
-	protected $dbPass = "waterfront07";
+	protected $dbPass = "delsan@1991";
 	protected $dbName = "cms";
 
 	 function __construct($dbParams = array()){ // @dbParams is use to override the default settings in database.
