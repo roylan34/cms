@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import DataTable from '../../helpers/table';
 import ActivityLogs from '../ActivityLogs';
+import ArchiveSearch from './ArchiveSearch';
+import { momentObjToString } from '../../helpers/utils';
 
-export default function CurrentContract(props) {
+export default function ArchiveContract(props) {
 
-    let dtInstance = null;
+    let dtInstance = useRef();
+    let state_search = {};
+    let toggleSearch = false;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -27,6 +31,17 @@ export default function CurrentContract(props) {
 
     }, []);
 
+    function handleRefreshTable() {
+        dtInstance.current.ajax.reload(null, false);
+    }
+
+    function getSearchValue(e) {
+        state_search.comp = e.comp;
+        state_search.category = e.category;
+        state_search.valid_from = momentObjToString(e.valid_from);
+        state_search.valid_to = momentObjToString(e.valid_to);
+        state_search.status = e.status;
+    }
 
     return (
         <div>
@@ -37,8 +52,13 @@ export default function CurrentContract(props) {
                 param={d => {
                     delete d.columns; //Remove built-in paramaters.
                     d.action = "all";
+                    d.comp = state_search.comp;
+                    d.category = state_search.category;
+                    d.valid_from = state_search.valid_from;
+                    d.valid_to = state_search.valid_to;
+                    d.status = state_search.status;
                 }}
-                onRef={ref => (dtInstance = ref)}
+                onRef={ref => (dtInstance.current = ref)}
                 dom="Blrtip"
                 headers={[
                     "#",
@@ -50,7 +70,7 @@ export default function CurrentContract(props) {
                     "Created at",
                     ""
                 ]}
-                // headerSearch={<HeaderSearch />}
+                headerSearch={<ArchiveSearch span="8" getSearchValue={getSearchValue} refreshTable={handleRefreshTable} />}
                 serverSide={true}
                 columns={[
                     {
@@ -121,9 +141,19 @@ export default function CurrentContract(props) {
                         }
                     },
                     {
-                        text: '<i class="fa fa-search" aria-hidden="true"></i> Open Search',
+                        text: 'Open Search',
                         className: "",
-                        action: function () {
+                        action: function (e, dt, node, config) {
+                            if (toggleSearch) {
+                                node[0].innerText = "Open Search";
+                                toggleSearch = false;
+                                document.querySelector('.search').classList.remove('search-transition');
+                            } else {
+                                node[0].innerText = "Close Search";
+                                toggleSearch = true;
+                                document.querySelector('.search').classList.add('search-transition');
+                            }
+
                         }
                     },
                 ]}

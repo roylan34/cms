@@ -143,9 +143,16 @@ protected $conn = null;
 			}
 			return $json_data;  // send data as json format.
     }
-    public function getArchive(){
+    public function getArchive($data){
         $search = "";
         $limit  = "";
+
+        if($data['comp'])       { $search .= "AND comp.company_name LIKE '%".$data['comp']."%'"; }
+        if($data['category'])   { $search .= "AND cnt.category ='".$data['category']."'"; }
+        if($data['valid_from']) { $search .= "AND cnt.valid_from LIKE '%".$data['valid_from']."%'"; }
+        if($data['valid_to'])   { $search .= "AND cnt.valid_to LIKE '%".$data['valid_to']."%'"; }
+        if($data['status'])     { $search .= "AND cnt.status= '".$data['status']."'"; }
+
 
             $requestData= $_REQUEST;
 			// storing  request (ie, get/post) global array to a variable  
@@ -158,7 +165,7 @@ protected $conn = null;
 
              $this->conn->selectQuery('*, comp.company_name',"{$this->table} cnt 
                                         LEFT JOIN dbmif.tbl_company_auto_import comp ON cnt.sap_company_id = comp.id
-                                        WHERE cnt.status IN ('CANCEL','CLOSED')) {$search}");
+                                        WHERE cnt.status IN ('CANCEL','CLOSED') {$search}");
 
 				 $this->conn->fields = null;
 				$totalFiltered  =  $this->conn->getNumRows(); // when there is a search parameter then we have to modify total number filtered rows as per search result. 
