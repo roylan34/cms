@@ -212,6 +212,30 @@ protected $conn = null;
     public function emptyFields(){
         $this->conn->fields = null;
     }
+    public function getCalendarForecast($data){
+        $search = "";
+        if($data['user_id'])       { $search = "AND user_id= ".$data['user_id'].""; }
+
+        $sql = "SELECT valid_to,
+                    COUNT(*) AS forecast_count,
+                    'expired' AS forecast_status
+                    FROM
+                    tbl_contracts 
+                    WHERE (DATEDIFF(valid_to, CURDATE()) <= 0) AND valid_to LIKE '".$data['valid_to']."%'
+                    ".$search." AND STATUS NOT IN ('CANCEL', 'CLOSED') GROUP BY valid_to
+                UNION ALL
+                SELECT
+                    valid_to,
+                    COUNT(*) AS forecast_count,
+                    'notifying' AS forecast_status
+                    FROM
+                    tbl_contracts 
+                    WHERE (DATEDIFF(valid_to, CURDATE()) BETWEEN 1 AND days_to_reminds) 
+                    AND valid_to LIKE '".$data['valid_to']."%'
+                    ".$search." AND STATUS NOT IN ('CANCEL', 'CLOSED') GROUP BY valid_to";
+        $this->conn->selectCustomQuery($sql);
+        return $this->conn->getFields();
+    }
     
 }
 

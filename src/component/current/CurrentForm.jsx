@@ -213,7 +213,7 @@ function FormCurrent(props) {
     useEffect(() => {
         getData(state_form);
 
-    }, [state_form.isShowForm]); //for check
+    }, [state_form.isShowForm]);
 
 
     return (
