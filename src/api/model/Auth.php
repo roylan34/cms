@@ -19,7 +19,7 @@ protected $conn = null;
     }
 
     function login($data){
-        $this->conn->selectQuery("firstname, lastname, status, user_role, email", "{$this->table_acc} 
+        $this->conn->selectQuery("id, firstname, lastname, status, user_role, email", "{$this->table_acc} 
                                 WHERE username = '{$data['username']}' && password='{$data['password']}' LIMIT 1");
         
         if($this->conn->getNumRows() > 0){
