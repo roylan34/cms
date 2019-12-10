@@ -186,7 +186,7 @@ Class Database extends DbErrorHandler{
 			$this->db_error($qry);
 		}
 	}
-	public function selectQuery2($custom){
+	public function selectCustomQuery($custom){
 
 		$qry = $custom;
 		if($res = $this->conn->query($qry))
