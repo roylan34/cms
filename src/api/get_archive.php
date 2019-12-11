@@ -15,7 +15,8 @@ $data   = array(
     'category'    => Utils::getValue('category'),
     'valid_from'  => Utils::getValue('valid_from'),
     'valid_to'    => Utils::getValue('valid_to'),
-    'status'      => Utils::getValue('status')
+    'status'      => Utils::getValue('status'),
+    'user_id'      => Utils::getValue('user_id')
 );
 switch ($action) {
     case 'all':

@@ -72,20 +72,21 @@ protected $conn = null;
         $search = "";
         $limit  = "";
 
-            if($data['comp'])       { $search .= "AND comp.company_name LIKE '%".$data['comp']."%'"; }
-            if($data['category'])   { $search .= "AND cnt.category ='".$data['category']."'"; }
-            if($data['valid_from']) { $search .= "AND cnt.valid_from LIKE '%".$data['valid_from']."%'"; }
-            if($data['valid_to'])   { $search .= "AND cnt.valid_to LIKE '%".$data['valid_to']."%'"; }
+            if($data['comp'])       { $search .= " AND comp.company_name LIKE '%".$data['comp']."%'"; }
+            if($data['category'])   { $search .= " AND cnt.category ='".$data['category']."'"; }
+            if($data['valid_from']) { $search .= " AND cnt.valid_from LIKE '%".$data['valid_from']."%'"; }
+            if($data['valid_to'])   { $search .= " AND cnt.valid_to LIKE '%".$data['valid_to']."%'"; }
+            if($data['user_id'])    { $search .= " AND cnt.user_id = ".$data['user_id'].""; }
             if($data['status'])     { 
                 switch ($data['status']) {
                     case 'active':
-                        $search .= "AND DATEDIFF(cnt.valid_to, CURDATE()) > cnt.days_to_reminds";
+                        $search .= " AND DATEDIFF(cnt.valid_to, CURDATE()) > cnt.days_to_reminds";
                         break;
                     case 'notify':
-                        $search .= "AND DATEDIFF(cnt.valid_to, CURDATE()) BETWEEN 1 AND cnt.days_to_reminds";
+                        $search .= " AND DATEDIFF(cnt.valid_to, CURDATE()) BETWEEN 1 AND cnt.days_to_reminds";
                         break;
                     case 'expired':
-                        $search .= "AND DATEDIFF(cnt.valid_to, CURDATE()) <= 0";
+                        $search .= " AND DATEDIFF(cnt.valid_to, CURDATE()) <= 0";
                         break;
                     
                     default:
@@ -104,7 +105,7 @@ protected $conn = null;
 			if( !empty($search) ) { // if there is a search parameter, $requestData['search']['value'] contains search parameter.
 
              $this->conn->selectQuery('*, comp.company_name',"{$this->table} cnt 
-                                        LEFT JOIN dbmif.tbl_company_auto_import comp ON cnt.sap_company_id = comp.id
+                                        LEFT JOIN sap_db.tbl_company_auto_import comp ON cnt.sap_company_id = comp.id
                                         WHERE cnt.status IN ('INITIAL','RENEW') {$search}");
 
 				 $this->conn->fields = null;
@@ -126,7 +127,7 @@ protected $conn = null;
                                             END
                                         ) AS notify_status
                                         ',"{$this->table} cnt 
-                                        LEFT JOIN dbmif.tbl_company_auto_import comp ON cnt.sap_company_id = comp.id
+                                        LEFT JOIN sap_db.tbl_company_auto_import comp ON cnt.sap_company_id = comp.id
                                         LEFT JOIN tbl_categories cat ON cnt.category = cat.id
                                         WHERE cnt.status IN ('INITIAL','RENEW') {$search} ORDER BY cnt.id DESC {$limit}");
 			$row =  $this->conn->getFields(); //Get all rows
@@ -148,11 +149,12 @@ protected $conn = null;
         $search = "";
         $limit  = "";
 
-        if($data['comp'])       { $search .= "AND comp.company_name LIKE '%".$data['comp']."%'"; }
-        if($data['category'])   { $search .= "AND cnt.category ='".$data['category']."'"; }
-        if($data['valid_from']) { $search .= "AND cnt.valid_from LIKE '%".$data['valid_from']."%'"; }
-        if($data['valid_to'])   { $search .= "AND cnt.valid_to LIKE '%".$data['valid_to']."%'"; }
-        if($data['status'])     { $search .= "AND cnt.status= '".$data['status']."'"; }
+        if($data['comp'])       { $search .= " AND comp.company_name LIKE '%".$data['comp']."%'"; }
+        if($data['category'])   { $search .= " AND cnt.category ='".$data['category']."'"; }
+        if($data['valid_from']) { $search .= " AND cnt.valid_from LIKE '%".$data['valid_from']."%'"; }
+        if($data['valid_to'])   { $search .= " AND cnt.valid_to LIKE '%".$data['valid_to']."%'"; }
+        if($data['status'])     { $search .= " AND cnt.status= '".$data['status']."'"; }
+        if($data['user_id'])    { $search .= " AND cnt.user_id = ".$data['user_id'].""; }
 
 
             $requestData= $_REQUEST;

@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { Modal } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import DataTable from '../../helpers/table';
 import CurrentSearch from './CurrentSearch';
 import CurrentForm from './CurrentForm';
 import ActivityLogs from '../ActivityLogs';
 import CurrentServices from '../../services/currentServices.js';
 import { momentObjToString } from '../../helpers/utils';
+import Jwt from '../../helpers/jwt';
 
 export default function CurrentContract(props) {
 
@@ -78,6 +79,7 @@ export default function CurrentContract(props) {
                 param={d => {
                     delete d.columns; //Remove built-in paramaters.
                     d.action = "all";
+                    d.user_id = Jwt.get('id');
                     d.comp = state_search.comp;
                     d.category = state_search.category;
                     d.valid_from = state_search.valid_from;

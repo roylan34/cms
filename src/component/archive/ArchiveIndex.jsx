@@ -4,6 +4,7 @@ import DataTable from '../../helpers/table';
 import ActivityLogs from '../ActivityLogs';
 import ArchiveSearch from './ArchiveSearch';
 import { momentObjToString } from '../../helpers/utils';
+import Jwt from '../../helpers/jwt';
 
 export default function ArchiveContract(props) {
 
@@ -52,6 +53,7 @@ export default function ArchiveContract(props) {
                 param={d => {
                     delete d.columns; //Remove built-in paramaters.
                     d.action = "all";
+                    d.user_id = Jwt.get('id');
                     d.comp = state_search.comp;
                     d.category = state_search.category;
                     d.valid_from = state_search.valid_from;
