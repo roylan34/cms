@@ -24,10 +24,7 @@ export default function currentReducer(state = initial_state, action) {
             }
             break;
         case HIDE_CURRENT_FORM:
-            return {
-                ...state,
-                isShowForm: false,
-            }
+            return initial_state;
             break;
         default:
             return state;
