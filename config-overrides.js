@@ -8,7 +8,7 @@ module.exports = override(
     }),
     //Customize theme color
     addLessLoader({
-        javascriptEnabled: true
-        // modifyVars: { '@primary-color': '#1DA57A' }
+        javascriptEnabled: true,
+        modifyVars: { '@primary-color': '#1CC597' }
     })
 )

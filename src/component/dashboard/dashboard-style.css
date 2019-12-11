@@ -11,9 +11,13 @@
     font-size:1.3em;
 }
 
+.calendar .fc-view-container{
+    color:#1F6F6E;
+}
+
 .calendar .fc-unthemed{
     padding:12px;
-    border-top:3px solid#00a65a;
+    border-top:3px solid#00af5f;
 }
 
 .calendar .fc-today{
@@ -26,12 +30,12 @@
 
 .calendar .fc-button, 
 .calendar .fc-dayGridMonth-button{
-    background-color: #03a9f4;
+    background-color: #57A78D;
     color: #fff
 }
 
 .calendar .fc-button:hover{
-    background-color: #2196f3;
+    background-color: #1F6F6E;
     border-color: #eee;
     color:#f2f2f2
 }
