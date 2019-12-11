@@ -16,13 +16,14 @@ protected $conn = null;
     }
 
     public function add($data){
-        $this->conn->insertQuery($this->table,'sap_company_id, category, valid_from, valid_to, days_to_reminds, notes, created_at',
+        $this->conn->insertQuery($this->table,'sap_company_id, category, valid_from, valid_to, days_to_reminds, notes, user_id, created_at',
 									    '"'.$data['comp'].'",
 									    "'.$data['category'].'",
 									    "'.$data['valid_from'].'",
                                         "'.$data['valid_to'].'",
                                         "'.$data['days_to_reminds'].'",
                                         "'.$data['notes'].'",
+                                        "'.$data['user_id'].'",
                                         NOW()');
             $last_id = $this->conn->getLastId();
             $res = $this->conn->getFields();

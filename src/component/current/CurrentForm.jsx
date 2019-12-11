@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import _debounce from 'lodash.debounce';
 import { fetchComp, fetchCompById } from '../../actions/drpAction';
 import { isEmpty, momentObjToString, isEmptyStr } from '../../helpers/utils';
+import Jwt from './../../helpers/jwt';
 import { API_URL } from '../../helpers/constant';
 import { SelectCategory } from '../../helpers/dropdown';
 import CurrentServices from '../../services/currentServices.js';
@@ -32,15 +33,14 @@ function FormCurrent(props) {
     }
 
     function submitData(data, reset, state) {
-        // console.log(props.dtInstance.current.ajax.reload(false,null));
         const { comp, category, valid_from, valid_to, days_to_reminds, notes, attachment } = data;
         const { id, actionForm } = state_form;
-        // const user_id = jwt.get('user_id');
         const param = { action: actionForm, comp, category, valid_from: momentObjToString(valid_from), valid_to: momentObjToString(valid_to), days_to_reminds, notes: isEmptyStr(notes) };
         const url = `${API_URL}/action_current.php`;
 
         if (actionForm == 'add') {
             //Add form
+            param.user_id = Jwt.get('id');
             File.upload({
                 url: url,
                 attachment,
@@ -156,7 +156,6 @@ function FormCurrent(props) {
         });
     }
     function normFile(e) {
-        // console.log("Upload event:", e);
         if (Array.isArray(e)) {
             return e;
         }

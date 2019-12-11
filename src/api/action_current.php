@@ -25,7 +25,8 @@ $data = array(
     'id'                => Utils::getValue('id'),
     'attachment_dir'    => Utils::getValue('attachment_dir'),
     'remove_files'      => Utils::getValue('remove_files'),
-    'attachment_renew_dir' => Utils::getValue('attachment_renew_dir')
+    'attachment_renew_dir' => Utils::getValue('attachment_renew_dir'),
+    'user_id'           => Utils::getValue('user_id')
 );
 switch ($action) {
     case 'add':
