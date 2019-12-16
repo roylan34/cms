@@ -1,5 +1,6 @@
 @import '../../../node_modules/antd/dist/antd.less';
 
+
 /** Override Ant design theme **/ 
 .@{form-prefix-cls}-item{
     margin-bottom: 0;;
@@ -10,6 +11,34 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: 'Archivo', sans-serif;
     font-weight: 400;
 }
+
+/** Override Bootstrap design theme **/
+
+.btn-success{
+    color: #fff;
+    background-color: #0e9e7d;
+    border-color:#0e9e7d;
+}
+.btn-success:hover,
+.btn-success:focus{
+    color: #fff;
+    background-color: #0da884;
+    border-color: #0da884;
+}
+.btn-success.active.focus, 
+.btn-success.active:focus, 
+.btn-success.active:hover, 
+.btn-success:active.focus, 
+.btn-success:active:focus, 
+.btn-success:active:hover, 
+.open>.dropdown-toggle.btn-success.focus, 
+.open>.dropdown-toggle.btn-success:focus, 
+.open>.dropdown-toggle.btn-success:hover {
+    color: #fff;
+    background-color: #0e9e7d;
+    border-color: #0f9475;
+}
+
 /** Override AdminLTE rules **/
 .wrapper{
   overflow-y: hidden !important;
@@ -86,7 +115,4 @@ div.scrollToTop{
 .badge-orange{
 	background-color:#f39c12;
 }
-/** Fixed DataTable print, avoid blank pages **/
-/* @media print {
-  html, body { height: auto; }
-} */
+

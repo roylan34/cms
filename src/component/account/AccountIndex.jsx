@@ -108,7 +108,7 @@ function Account(props) {
                     {
                         data: null,
                         render: function (data) {
-                            return `<a href="#" data-id=${data.id} class="btn btn-flat btn-sm btn-success viewAccount"><i class="fa fa-pencil-square" aria-hidden="true"></i> EDIT</a>`;
+                            return `<a href="#" data-id=${data.id} class="btn btn-sm btn-success viewAccount"><i class="fa fa-pencil-square" aria-hidden="true"></i> EDIT</a>`;
                         }
                     },
 

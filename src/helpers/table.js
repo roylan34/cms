@@ -73,7 +73,7 @@ export default function Table(props) {
                 if (buttons.length > 0) {
                     buttons.forEach(function (elem) {
                         elem.classList.remove('btn-default');
-                        elem.classList.add('btn-primary', 'btn-flat', 'btn-sm');
+                        elem.classList.add('btn-success', 'btn-flat', 'btn-sm');
                     })
                 }
             },

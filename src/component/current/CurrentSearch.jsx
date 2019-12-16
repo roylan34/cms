@@ -94,10 +94,10 @@ function CurrentHeaderSearch(props) {
                             </Form.Item>
                         </Col>
                         <Col>
-                            <Form.Item><button className="btn btn-sm btn-flat btn-primary" onClick={handleSearch}>Search</button></Form.Item>
+                            <Form.Item><button className="btn btn-sm btn-success" onClick={handleSearch}>Search</button></Form.Item>
                         </Col>
                         <Col>
-                            <Form.Item><button className="btn btn-sm btn-flat btn-warning" onClick={handleClear}>Clear</button></Form.Item>
+                            <Form.Item><button className="btn btn-sm btn-warning" onClick={handleClear}>Clear</button></Form.Item>
                         </Col>
                     </Row>
                 </div>
