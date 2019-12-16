@@ -28,16 +28,22 @@
     font-size:12px;
 }
 
-.calendar .fc-button, 
-.calendar .fc-dayGridMonth-button{
+.calendar .fc-button{
     background-color: #57A78D;
-    color: #fff
+    color: #fff;
+    border-color: #45826e;
+    border-style: solid;
+    border-width: 0 1px 4px 1px;
 }
 
 .calendar .fc-button:hover{
     background-color: #1F6F6E;
-    border-color: #eee;
-    color:#f2f2f2
+    border-color: #1F6F6E;
+    color:#f2f2f2;
+}
+
+.calendar .fc-button:hover{
+    margin-top: 1px;
 }
 
 .calendar .fc-widget-content,

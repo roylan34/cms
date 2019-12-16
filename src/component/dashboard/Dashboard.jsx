@@ -41,8 +41,8 @@ export default function Dashboard() {
         let selected_date = null;
         let str_selected_date = null;
         setTimeout(() => {
-            const next_btn = document.querySelectorAll('.fc-header-toolbar .fc-button-group');
-            next_btn[0].addEventListener('click', function (e) {
+            const btn_prev_next = document.querySelectorAll('.fc-header-toolbar .fc-button-group');
+            btn_prev_next[0].addEventListener('click', function (e) {
                 e.preventDefault();
                 selected_date = calendarComponentRef.current.calendar.getDate();
                 str_selected_date = moment(selected_date).format('YYYY-MM');
@@ -56,9 +56,26 @@ export default function Dashboard() {
 
     }
 
+    function calendarToday() {
+        let current_date = null;
+        setTimeout(() => {
+            const btn_today = document.querySelector('.fc-today-button');
+            btn_today.addEventListener('click', function (e) {
+                e.preventDefault();
+                current_date = moment().format('YYYY-MM');
+                //Set state of current date
+                setState((prev) => ({
+                    ...prev,
+                    calendarDateNow: current_date
+                }));
+            });
+        }, 300);
+    }
+
     useEffect(() => {
         calendarForecast();
         calendarPrevNext();
+        calendarToday();
     }, [state.calendarDateNow]);
 
     return (
