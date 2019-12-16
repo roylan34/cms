@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import dbiclogo from '../../assets/img/dbic-logo.jpg';
-import avatar from '../../assets/img/avatar.png';
+import avatar from '../../assets/img/avatar.svg';
 import Auth, { _logout } from '../../helpers/auth';
 
 function Navigation() {
@@ -19,7 +19,7 @@ function Navigation() {
             {/* Logo */}
             <div className="logo">
                 {/* mini logo for sidebar mini 50x50 pixels */}
-                <span className="logo-mini"><b>M</b></span>
+                <span className="logo-mini"><b>CMS</b></span>
                 {/* logo for regular state and mobile devices */}
                 <span className="logo-lg"><img src={dbiclogo} alt="DBIC logo" width="230" height="50" /></span>
             </div>
