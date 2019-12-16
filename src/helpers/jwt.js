@@ -1,6 +1,4 @@
 import Cookies from './cookies';
-import { API_URL } from './constant';
-import $ from 'jquery';
 import { Base64 } from 'js-base64';
 
 class Jwt {

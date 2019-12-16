@@ -20,7 +20,8 @@ switch ($action) {
 
         break;
     case 'logout':
-
+        $resAuth = $auth->logout();
+        print Utils::jsonEncode($resAuth);
     
         break;
     default:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import dbiclogo from '../../assets/img/dbic-logo.jpg';
 import avatar from '../../assets/img/avatar.svg';
@@ -8,9 +8,11 @@ import Auth, { _logout } from '../../helpers/auth';
 function Navigation() {
     const { fullname, email } = useSelector(state => state.userDetailsReducer);
     const history = useHistory();
+    const dispatch = useDispatch();
 
     function logout(e) {
         e.preventDefault();
+        dispatch({ type: 'LOGOUT_USER_DETAILS' });
         Auth.logout(history);
     }
     return (

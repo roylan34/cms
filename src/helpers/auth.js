@@ -1,6 +1,8 @@
 import Cookies from "../helpers/cookies";
 import Jwt from "../helpers/jwt";
 import { isEmpty } from './utils';
+import $ from 'jquery';
+import { API_URL } from './constant';;
 
 class Auth {
 
@@ -38,10 +40,24 @@ class Auth {
             this.sid = null;
             Cookies.clear('token');
             Cookies.clear('sid');
-            cbHistory.push("/login");
+            Jwt.clear();
+            cbHistory.push('/login');
 
             //ajax
             //will clear stored session in the server.
+            $.ajax({
+                url: `${API_URL}/login.php`,
+                data: { action: 'logout' },
+                dataType: 'json',
+                method: "POST",
+                success: (res) => {
+                    if (res.status === "success") {
+                        console.log('successfully logout');
+                    }
+                }
+            });
+
+
         }
     }
 

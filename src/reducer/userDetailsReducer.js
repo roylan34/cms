@@ -1,5 +1,6 @@
 import {
-    LOGIN_USER_DETAILS
+    LOGIN_USER_DETAILS,
+    LOGOUT_USER_DETAILS
 } from '../actions/userDetailsAction'
 import Jwt from '../helpers/jwt';
 
@@ -19,6 +20,9 @@ export default function userDetailsReducer(state = initial_state, action) {
                 user_role: Jwt.get('user_role'),
                 email: 'testemail',
             }
+            break;
+        case LOGOUT_USER_DETAILS:
+            return initial_state;
             break;
         default:
             return state;
