@@ -21,7 +21,6 @@ function FormCurrent(props) {
     const state_drp = useSelector(state => state.drpReducer);
     const dispatch = useDispatch();
     const [stateAttach, setStateAttach] = useState({ dir: '', dir_ren: '', remove_file: [] });
-    const [stateValidDate, setStateValidDate] = useState({ startDate: null, endDate: null });
 
     const opt_comp = state_drp.comp.data.map(opt => <Option key={`id-${opt.id}`} value={opt.id}>{opt.company_name}</Option>)
     const delayedSearchComp = _debounce((e) => onSearchCompany(e), 500);
@@ -208,25 +207,6 @@ function FormCurrent(props) {
         dispatch({ type: 'HIDE_CURRENT_FORM' });
         resetState();
         resetFields();
-    }
-    function onChangeDate(field, value) {
-        setStateValidDate(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    }
-    function handleSetValidFromDate(e) {
-        onChangeDate('startDate', e);
-        console.log(stateValidDate);
-    }
-    function handleSetValidtoDate(e) {
-        onChangeDate('endDate', e);
-        console.log(stateValidDate);
-    }
-    //Disable date before today
-    function disableDate(current) {
-        // return current < moment().subtract(1, 'day'); //exclude disabling current date
-        return current < moment().endOf('today');
     }
 
     function disabledStartDate(startValue) {

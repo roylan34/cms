@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Form, Input, DatePicker, Select, Row, Col } from "antd";
+import React, { useState } from "react";
+import { Input, DatePicker, Select, Row, Col } from "antd";
 import { SelectCategory } from '../../helpers/dropdown';
 
 function CurrentHeaderSearch(props) {
@@ -61,47 +61,33 @@ function CurrentHeaderSearch(props) {
         <React.Fragment>
             <caption className="dt-head-search" style={{ captionSide: 'top' }}>
                 {/** Custom header search */}
-                <div className="">
-
-                    <Row type="flex" gutter={[8, 8]} align="middle" justify='space-around' className="search">
-                        <Col xs={24} sm={12} md={4}>
-                            <Form.Item>
-                                <Input placeholder="Company" onChange={handleSearchInput} name="comp" value={stateSearch.comp} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={4}>
-                            <Form.Item>
-                                <SelectCategory placeholder="Select category" onChange={handleCategory} name="category" value={stateSearch.category} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={4}>
-                            <Form.Item>
-                                <DatePicker style={{ width: '100%' }} placeholder="Valid from" onChange={handleValidFrom} name="valid_from" value={stateSearch.valid_from} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={4}>
-                            <Form.Item>
-                                <DatePicker style={{ width: '100%' }} placeholder="Valid to" onChange={handleValidTo} name="valid_to" value={stateSearch.valid_to} />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12} md={4}>
-                            <Form.Item>
-                                <Select style={{ width: '100%' }} placeholder="Status" onChange={handleStatus} name="status" value={stateSearch.status}>
-                                    <Option value="active">ACTIVE</Option>
-                                    <Option value="notify">NOTIFYING</Option>
-                                    <Option value="expired">EXPIRED</Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col>
-                            <Form.Item><button className="btn btn-sm btn-success" onClick={handleSearch}>Search</button></Form.Item>
-                        </Col>
-                        <Col>
-                            <Form.Item><button className="btn btn-sm btn-warning" onClick={handleClear}>Clear</button></Form.Item>
-                        </Col>
-                    </Row>
-                </div>
-
+                <Row type="flex" gutter={[8, 8]} align="middle" justify='space-around' className="search">
+                    <Col xs={24} sm={12} md={4}>
+                        <Input placeholder="Company" onChange={handleSearchInput} name="comp" value={stateSearch.comp} />
+                    </Col>
+                    <Col xs={24} sm={12} md={4}>
+                        <SelectCategory placeholder="Select category" onChange={handleCategory} name="category" value={stateSearch.category} />
+                    </Col>
+                    <Col xs={24} sm={12} md={4}>
+                        <DatePicker style={{ width: '100%' }} placeholder="Valid from" onChange={handleValidFrom} name="valid_from" value={stateSearch.valid_from} />
+                    </Col>
+                    <Col xs={24} sm={12} md={4}>
+                        <DatePicker style={{ width: '100%' }} placeholder="Valid to" onChange={handleValidTo} name="valid_to" value={stateSearch.valid_to} />
+                    </Col>
+                    <Col xs={24} sm={12} md={4}>
+                        <Select style={{ width: '100%' }} placeholder="Status" onChange={handleStatus} name="status" value={stateSearch.status}>
+                            <Option value="active">ACTIVE</Option>
+                            <Option value="notify">NOTIFYING</Option>
+                            <Option value="expired">EXPIRED</Option>
+                        </Select>
+                    </Col>
+                    <Col>
+                        <button className="btn btn-sm btn-success" onClick={handleSearch}>Search</button>
+                    </Col>
+                    <Col>
+                        <button className="btn btn-sm btn-warning" onClick={handleClear}>Clear</button>
+                    </Col>
+                </Row>
             </caption>
         </React.Fragment>
     );
