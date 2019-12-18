@@ -15,12 +15,13 @@ import moment from 'moment';
 const { Option } = Select;
 
 function FormCurrent(props) {
-    const { getFieldDecorator, setFieldsValue, resetFields } = props.form;
+    const { getFieldDecorator, setFieldsValue, resetFields, getFieldValue } = props.form;
 
     const state_form = useSelector(state => state.currentReducer);
     const state_drp = useSelector(state => state.drpReducer);
     const dispatch = useDispatch();
     const [stateAttach, setStateAttach] = useState({ dir: '', dir_ren: '', remove_file: [] });
+    const [stateValidDate, setStateValidDate] = useState({ startDate: null, endDate: null });
 
     const opt_comp = state_drp.comp.data.map(opt => <Option key={`id-${opt.id}`} value={opt.id}>{opt.company_name}</Option>)
     const delayedSearchComp = _debounce((e) => onSearchCompany(e), 500);
@@ -208,6 +209,46 @@ function FormCurrent(props) {
         resetState();
         resetFields();
     }
+    function onChangeDate(field, value) {
+        setStateValidDate(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    }
+    function handleSetValidFromDate(e) {
+        onChangeDate('startDate', e);
+        console.log(stateValidDate);
+    }
+    function handleSetValidtoDate(e) {
+        onChangeDate('endDate', e);
+        console.log(stateValidDate);
+    }
+    //Disable date before today
+    function disableDate(current) {
+        // return current < moment().subtract(1, 'day'); //exclude disabling current date
+        return current < moment().endOf('today');
+    }
+
+    function disabledStartDate(startValue) {
+        const endValue = getFieldValue('valid_to');
+
+        if (!startValue || !endValue) {
+            return startValue < moment().endOf('today');
+        }
+
+        return startValue.valueOf() > endValue.valueOf();
+    }
+
+    function disabledEndDate(endValue) {
+        const startValue = getFieldValue('valid_from');
+
+        if (!startValue || !endValue) {
+            return endValue < moment().endOf('today');
+        }
+
+        return startValue.valueOf() > endValue.valueOf();
+    }
+
     console.log('render formsss');
     useEffect(() => {
         getData(state_form);
@@ -270,7 +311,7 @@ function FormCurrent(props) {
                                         getFieldDecorator('valid_from', {
                                             rules: [{ required: true, message: 'this field is required' }]
                                         })(
-                                            <DatePicker />
+                                            <DatePicker disabledDate={disabledStartDate} />
                                         )
                                     }
                                 </Form.Item>
@@ -282,7 +323,7 @@ function FormCurrent(props) {
                                         getFieldDecorator('valid_to', {
                                             rules: [{ required: true, message: 'this field is required' }]
                                         })(
-                                            <DatePicker />
+                                            <DatePicker disabledDate={disabledEndDate} />
                                         )
                                     }
                                 </Form.Item>
