@@ -38,7 +38,7 @@ export default function Main(props) {
                 <div className="content-wrapper">
                     {/* Content Header (Page header) */}
                     <section className="content-header">
-                        <h1></h1>
+                        <h1>{props.headTitle}</h1>
                         {/*<ol className="breadcrumb">
                                 <li><i className="fa fa-dashboard active"></i> Home</li>
                                 <li className="active"></li>
