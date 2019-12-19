@@ -33,7 +33,7 @@ function SettingsCategoy(props) {
         dtInstance.ajax.reload(null, false);
     }
     return (
-        <div>
+        <div className="settings">
             <CategoryForm refreshTable={handleRefreshTable} />
             <DataTable
                 id="dtStgCategory"

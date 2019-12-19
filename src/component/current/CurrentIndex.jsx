@@ -70,7 +70,7 @@ export default function CurrentContract(props) {
     }
 
     return (
-        <div>
+        <div className="current">
             <CurrentForm refreshTable={handleRefreshTable} />
             <ActivityLogs />
             <DataTable

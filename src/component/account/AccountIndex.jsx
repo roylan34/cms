@@ -32,7 +32,7 @@ function Account(props) {
         dtInstance.ajax.reload(null, false);
     }
     return (
-        <div>
+        <div className="account">
             <AccountForm refreshTable={handleRefreshTable} />
             <DataTable
                 id="dtAccounts"

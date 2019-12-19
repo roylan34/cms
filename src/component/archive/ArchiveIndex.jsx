@@ -45,7 +45,7 @@ export default function ArchiveContract(props) {
     }
 
     return (
-        <div>
+        <div className="archive">
             <ActivityLogs />
             <DataTable
                 id="dtArchiveContract"
