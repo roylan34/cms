@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import dbiclogo from '../../assets/img/dbic-logo.jpg';
 import avatar from '../../assets/img/avatar.svg';
 import Auth, { _logout } from '../../helpers/auth';
+import moment from 'moment';
 
 function Navigation() {
     const { fullname, email } = useSelector(state => state.userDetailsReducer);
@@ -33,10 +34,11 @@ function Navigation() {
                     <span className="sr-only">Toggle navigation</span>
                 </a>
                 {/* Navbar Right Menu */}
+                <div className="hidden-xs" style={{ display: 'inline-block', lineHeight: 4, color: '#fff', fontSize: 13 }}><i className="fa fa-calendar-o" aria-hidden="true"></i> {moment().format('dddd, MMMM D YYYY')}</div>
                 <div className="navbar-custom-menu">
                     <ul className="nav navbar-nav">
-
                         {/* User Account Menu */}
+                        <li><a><i class="fa fa-bell-o" aria-hidden="true"></i></a></li>
                         <li className="dropdown user user-menu">
                             {/* Menu Toggle Button */}
                             <a href="" className="dropdown-toggle" data-toggle="dropdown">
