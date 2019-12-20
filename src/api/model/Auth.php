@@ -43,17 +43,15 @@ protected $conn = null;
 
                 $data = array(
                     'token'  => $jwt,
-                    'status' => $res['status'],
-                    'aaData' => $res['aaData'][0],
-                    'expr_timestamp' => $expiration
+                    'status' => $res['status']
                 );
                 //store cookies to the browser.
                 setcookie('token', $jwt, $expiration, '/');
                 setcookie('sid', $sid, $expiration, '/');
 
                 //set session in the server.
-                $_SESSION['token'] = $jwt;
-                $_SESSION['sid'] = $sid;
+                // $_SESSION['token'] = $jwt;
+                // $_SESSION['sid'] = $sid;
             }
         }
         else{

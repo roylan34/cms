@@ -5,9 +5,11 @@ import {
 import Jwt from '../helpers/jwt';
 
 const initial_state = {
+    id: '',
     fullname: '',
     user_role: '',
-    email: ''
+    email: '',
+    expr_time_stamp: ''
 };
 
 export default function userDetailsReducer(state = initial_state, action) {
@@ -16,9 +18,11 @@ export default function userDetailsReducer(state = initial_state, action) {
         case LOGIN_USER_DETAILS:
             return {
                 ...state,
+                id: Jwt.get('id'),
                 fullname: Jwt.get('firstname') + ' ' + Jwt.get('lastname'),
                 user_role: Jwt.get('user_role'),
-                email: 'testemail',
+                email: Jwt.get('user_role'),
+                expr_time_stamp: Jwt.get('expr_timestamp')
             }
             break;
         case LOGOUT_USER_DETAILS:
