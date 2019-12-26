@@ -38,7 +38,7 @@ function Navigation() {
                 <div className="navbar-custom-menu">
                     <ul className="nav navbar-nav">
                         {/* User Account Menu */}
-                        <li><a><i class="fa fa-bell-o" aria-hidden="true"></i></a></li>
+                        <li><a><i className="fa fa-bell-o" aria-hidden="true"></i></a></li>
                         <li className="dropdown user user-menu">
                             {/* Menu Toggle Button */}
                             <a href="" className="dropdown-toggle" data-toggle="dropdown">
