@@ -31,17 +31,21 @@ protected $conn = null;
                 $data = array('status' => 'inactive');
             }
             else{
-                $expiration = time() + (1 * 24 * 60 * 60); //default expiration is one day.
+                $expiration = time() + (1 * 24 * 60); //default expiration is one day.
+                // $expiration = time() + (1 * 24 * 60); //default expiration is one day.
                 if(session_id() === ''){
                     session_start();
                     $sid= session_id();
                 }
                 
+                $res['aaData'][0]['expr_timestamp'] = $expiration;
                 $jwt = JWT::encode($res['aaData'][0]);
+
                 $data = array(
                     'token'  => $jwt,
                     'status' => $res['status'],
-                    'aaData' => $res['aaData'][0]
+                    'aaData' => $res['aaData'][0],
+                    'expr_timestamp' => $expiration
                 );
                 //store cookies to the browser.
                 setcookie('token', $jwt, $expiration, '/');
