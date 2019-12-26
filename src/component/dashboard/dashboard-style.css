@@ -1,4 +1,4 @@
-.container-calendar{
+.expiration-calendar{
     width: 800px;
     margin: 0 auto;
 }
@@ -66,3 +66,19 @@
    background-color: #c34838;
    border-color: #bd3e2e;
 }
+
+.expiration-info-box .small-box h3{
+    color:#fff !important;
+}
+
+.expiration-info-box .count span{
+    font-size: 25px;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.expiration-info-box .small-box .icon,
+.expiration-info-box .small-box:hover .icon{
+    font-size: 50px;
+}
+

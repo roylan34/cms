@@ -239,7 +239,34 @@ protected $conn = null;
         $this->conn->selectCustomQuery($sql);
         return $this->conn->getFields();
     }
-    
+    public function getStatusCount($data){
+        $search = "";
+        if($data['user_id'])       { $search = "AND user_id= ".$data['user_id'].""; }
+
+        $sql = "SELECT 
+                    (SELECT 
+                    COUNT(*)
+                    FROM
+                    tbl_contracts 
+                    WHERE (DATEDIFF(valid_to, CURDATE()) > days_to_reminds) 
+                    ".$search." AND STATUS NOT IN ('CANCEL', 'CLOSED')) AS active,
+                    (SELECT 
+                    COUNT(*)
+                    FROM
+                    tbl_contracts 
+                    WHERE (
+                        DATEDIFF(valid_to, CURDATE()) BETWEEN 1 
+                        AND days_to_reminds) 
+                    ".$search." AND STATUS NOT IN ('CANCEL', 'CLOSED')) AS notifying,
+                    (SELECT 
+                    COUNT(*)
+                    FROM
+                    tbl_contracts 
+                    WHERE (DATEDIFF(valid_to, CURDATE()) <= 0) 
+                    ".$search." AND STATUS NOT IN ('CANCEL', 'CLOSED')) AS expired";
+        $this->conn->selectCustomQuery($sql);
+        return $this->conn->getFields();
+    }
 }
 
 ?>

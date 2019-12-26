@@ -3,9 +3,10 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import moment from 'moment';
 import DashboardServices from './../../services/dashboardServices';
+import { Col, Row } from 'antd';
 import Jwt from './../../helpers/jwt';
 
-// must manually import the stylesheets for each plugin
+//Manually import the stylesheets for each plugin
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 
@@ -15,7 +16,8 @@ export default function Dashboard() {
 
     const [state, setState] = useState({
         calendarDateNow: moment().format('YYYY-MM'),
-        calendarEvents: []
+        calendarEvents: [],
+        statusCount: { active: 0, notifying: 0, expired: 0 }
     });
 
     function calendarForecast() {
@@ -72,30 +74,85 @@ export default function Dashboard() {
         }, 300);
     }
 
+    function statusCount() {
+        const user_id = Jwt.get('id');
+        const data_count = DashboardServices.getStatusCount(user_id);
+        setState((prev) => ({
+            ...prev,
+            statusCount: data_count.aaData[0]
+        }));
+    }
+
     useEffect(() => {
         calendarForecast();
         calendarPrevNext();
         calendarToday();
     }, [state.calendarDateNow]);
 
+
+    useEffect(() => {
+        statusCount();
+    }, [])
+
     return (
-        <div className="container-calendar">
-            <h4 className="text-left">Expiration Forecast</h4>
-            <div className="calendar">
-                <FullCalendar
-                    defaultView="dayGridMonth"
-                    header={{
-                        left: "prev,next today",
-                        center: "title",
-                        right: ""
-                    }}
-                    plugins={[dayGridPlugin]}
-                    ref={calendarComponentRef}
-                    events={state.calendarEvents}
-                    eventClick={(info) => console.log(info)}
-                />
+        <React.Fragment>
+            <Row className="expiration-info-box" type="flex" gutter={[8, 0]}>
+                <Col md={8} xs={24}>
+                    <div className="small-box bg-green">
+                        <div className="inner">
+                            {/* <h3>{state.statusCount.active}</h3>
+                            <p>Active</p> */}
+                            <div className="count">Active: <span>{state.statusCount.active}</span></div>
+                        </div>
+                        <div className="icon">
+                            <i className="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </Col>
+                <Col md={8} xs={24}>
+                    <div className="small-box bg-yellow">
+                        <div className="inner">
+                            {/* <h3>{state.statusCount.notifying}</h3>
+                            <p>Nofiying</p> */}
+                            <div className="count">Nofiying: <span>{state.statusCount.notifying}</span></div>
+                        </div>
+                        <div className="icon">
+                            <i className="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </Col>
+                <Col md={8} xs={24}>
+                    <div className="small-box bg-red">
+                        <div className="inner">
+                            {/* <h3>{state.statusCount.expired}</h3>
+                            <p>Expired</p> */}
+                            <div className="count">Expired: <span>{state.statusCount.expired}</span></div>
+                        </div>
+                        <div className="icon">
+                            <i className="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </Col>
+            </Row>
+
+            <div className="expiration-calendar">
+                <p className="text-left">Monthly Forecast</p>
+                <div className="calendar">
+                    <FullCalendar
+                        defaultView="dayGridMonth"
+                        header={{
+                            left: "prev,next today",
+                            center: "title",
+                            right: ""
+                        }}
+                        plugins={[dayGridPlugin]}
+                        ref={calendarComponentRef}
+                        events={state.calendarEvents}
+                        eventClick={(info) => console.log(info)}
+                    />
+                </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 
 }

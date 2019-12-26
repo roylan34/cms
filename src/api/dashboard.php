@@ -19,6 +19,11 @@ switch ($action) {
         print Utils::jsonEncode($res);
         
         break;
+    case 'status-count':
+        $res = $con->getStatusCount($data);
+        print Utils::jsonEncode($res);
+        
+        break;
     default:
         throw new Exception('Action type not found.');
         break;

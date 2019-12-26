@@ -14,6 +14,17 @@ class Dashboard {
         }).done(res => { data = res; });
         return data;
     }
+    static getStatusCount(user_id) {
+        let data_count = null;
+        $.ajax({
+            type: 'GET',
+            url: API_URL + '/dashboard.php',
+            data: { user_id, action: 'status-count' },
+            cache: false,
+            async: false,
+        }).done(res => { data_count = res; });
+        return data_count;
+    }
 }
 
 export default Dashboard;
