@@ -20,9 +20,9 @@ export default function Dashboard() {
         statusCount: { active: 0, notifying: 0, expired: 0 }
     });
 
-    function calendarForecast() {
+    function calendarForecast(calendarDateNow) {
         const user_id = Jwt.get('id');
-        const date_now = state.calendarDateNow;
+        const date_now = calendarDateNow;
         const data = DashboardServices.getCalendarForecast(user_id, date_now);
         const events = data.aaData.map(event => {
             return {
@@ -84,7 +84,8 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        calendarForecast();
+        const stateDateNow = state.calendarDateNow;
+        calendarForecast(stateDateNow);
         calendarPrevNext();
         calendarToday();
     }, [state.calendarDateNow]);
