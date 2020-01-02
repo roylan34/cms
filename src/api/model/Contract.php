@@ -58,7 +58,7 @@ protected $conn = null;
         }
     }
     public function updateStatus($id, $status){
-        if($id){
+        if($id > 0){
             $this->conn->updateQuery($this->table, "status ='".$status."' ", "id='".$id."'");
             return $this->conn->getFields();
         }
@@ -209,8 +209,10 @@ protected $conn = null;
     }
 
     public function updateAttachmentName($id, $name){
-        $this->conn->updateQuery($this->table, "attachment='{$name}'", "id={$id}");
-        return $this->conn->getFields();
+        if($id){
+            $this->conn->updateQuery($this->table, "attachment='{$name}'", "id={$id}");
+            return $this->conn->getFields();
+        }
     }
     public function emptyFields(){
         $this->conn->fields = null;

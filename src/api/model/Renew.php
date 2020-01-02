@@ -31,8 +31,10 @@ protected $conn = null;
         $this->conn->fields = null;
     }
     public function updateAttachmentName($id, $name){
-        $this->conn->updateQuery($this->table, "attachment='{$name}'", "id={$id}");
-        return $this->conn->getFields();
+        if($id > 0){
+            $this->conn->updateQuery($this->table, "attachment='{$name}'", "id={$id}");
+            return $this->conn->getFields();
+        }
     }
     
 }
