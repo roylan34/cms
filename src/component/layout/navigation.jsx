@@ -16,6 +16,11 @@ function Navigation() {
         dispatch({ type: 'LOGOUT_USER_DETAILS' });
         Auth.logout(history);
     }
+
+    function changePassForm(e) {
+        e.preventDefault();
+        dispatch({ type: 'SHOW_FORM_CHANGEPASS' });
+    }
     return (
         <header className="main-header">
             {/* Main Header */}
@@ -38,7 +43,7 @@ function Navigation() {
                 <div className="navbar-custom-menu">
                     <ul className="nav navbar-nav">
                         {/* User Account Menu */}
-                        <li><a><i className="fa fa-bell-o" aria-hidden="true"></i></a></li>
+                        {/* <li><a><i className="fa fa-bell-o" aria-hidden="true"></i></a></li> */}
                         <li className="dropdown user user-menu">
                             {/* Menu Toggle Button */}
                             <a href="" className="dropdown-toggle" data-toggle="dropdown">
@@ -61,7 +66,7 @@ function Navigation() {
                                 {/* Menu Footer*/}
                                 <li className="user-footer" style={{ 'backgroundColor': '#333' }}>
                                     <div className="pull-left">
-                                        <a href="#" id="change-pass" className="btn btn-warning btn-flat" data-toggle="modal" data-target="#modalChangePass">Change password</a>
+                                        <button id="change-pass" className="btn btn-warning btn-flat" onClick={changePassForm}>Change password</button>
                                     </div>
                                     <div className="pull-right">
                                         <button id="logout" className="btn btn-sm btn-warning btn-flat" onClick={logout}><i className="fa fa-sign-out" aria-hidden="true"></i> Log out</button>

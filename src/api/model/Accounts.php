@@ -65,6 +65,27 @@ protected $conn = null;
             return $this->conn->getFields();
         }
     }
-    
+    public function changePass($data){
+        if(!$data['id'] && !$data['current_pass'] && !$data['new_pass'] && !$data['confirm_new_pass']){
+            return array(
+                'status'  => 'failed',
+                'message' => 'All fields should not empty.'
+            );
+
+        }
+        else if($data['new_pass'] != $data['confirm_new_pass']){
+            return array(
+                'status'  => 'failed',
+                'message' => 'New password should the same.'
+            );
+        }
+        else{
+            $this->conn->updateQuery($this->table, 
+                                "password='".Utils::encrypt($data['confirm_new_pass'])."'"
+                                , "id='".$data['id']."'");
+            return $this->conn->getFields();
+        }
+       
+    }
 }
 ?>

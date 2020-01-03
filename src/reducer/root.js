@@ -5,6 +5,7 @@ import drpReducer from './drpReducer';
 import activityLogsReducer from './activityLogsReducer';
 import accountReducer from './accountReducer';
 import userDetailsReducer from './userDetailsReducer';
+import changePassForm from './changePassReducer';
 
 
 const rootReducer = combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     drpReducer,
     activityLogsReducer,
     accountReducer,
-    userDetailsReducer
+    userDetailsReducer,
+    changePassForm
 });
 
 export default rootReducer;

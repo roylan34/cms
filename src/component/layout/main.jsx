@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import SideBar from './sideBar';
 import Footer from './footer';
 import Navigation from './navigation';
+import ChangePass from './changePass';
 import Cookies from './../../helpers/cookies';
 import { isEmpty } from './../../helpers/utils';
 
@@ -33,6 +34,7 @@ export default function Main(props) {
             <div className="wrapper">
                 <div id="include-navigation">
                     <Navigation />
+                    <ChangePass />
                 </div>
                 {/* Content Wrapper. Contains page content */}
                 <div className="content-wrapper">
