@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import avatar from '../../assets/img/avatar.svg';
-import { Icon } from 'antd';
 import { NavLink } from "react-router-dom";
 
 const SideBar = (props) => {

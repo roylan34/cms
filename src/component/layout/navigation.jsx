@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import dbiclogo from '../../assets/img/dbic-logo.jpg';
 import avatar from '../../assets/img/avatar.svg';
-import Auth, { _logout } from '../../helpers/auth';
+import Auth from '../../helpers/auth';
 import moment from 'moment';
 
 function Navigation() {
@@ -30,7 +30,7 @@ function Navigation() {
             {/* Header Navbar */}
             <nav className="navbar navbar-static-top" role="navigation">
                 {/* Sidebar toggle button*/}
-                <a href="" className="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span className="sr-only">Toggle navigation</span>
                 </a>
                 {/* Navbar Right Menu */}

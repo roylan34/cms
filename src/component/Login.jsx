@@ -1,12 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Input, Button, Icon, Form, Notification, Modal } from 'antd';
+import { Input, Button, Icon, Form, Modal } from 'antd';
 import $ from 'jquery';
 import logo from '../assets/img/delsanlogo.png';
 import banner from '../assets/img/cms-banner.jpg';
 import dbiclogo from '../assets/img/dbic-logo.jpg';
 import { API_URL } from '../helpers/constant';
-import Cookies from './../helpers/cookies';
 import './login.css';
 
 function Login(props) {

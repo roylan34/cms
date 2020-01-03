@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Select, Button, Input, Form, notification, Radio, Row, Col } from 'antd';
+import { Modal, Button, Input, Form, notification, Radio, Row, Col } from 'antd';
 import { API_URL } from '../../helpers/constant';
 import { isEmpty } from './../../helpers/utils';
 import CategoryServices from '../../services/categoryServices';
