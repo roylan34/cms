@@ -7,7 +7,7 @@ require_once 'utils.php';
 */
 function fileUpload($files, $action, $id_add, $exist_dir, ?string $status =null, ?string $exist_renew_dir = null){
 	// ############ Edit settings ##############
-	$path_dir  = "../../assets/attachment/"; //specify upload directory ends with / (slash)
+	$path_dir  = "../assets/attachment/"; //specify upload directory ends with / (slash)
 	$uploaded_result = array();
 
 			switch ($action) {
